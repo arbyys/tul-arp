@@ -1,4 +1,4 @@
-# ARP
+# ARP - cv1
 - u zkoušky výkonnost PC, vzorečky (Amdahlův zákon -> zrychlení [S_overall]) (1. přednáška na cvičení)
 
 ## Př1
