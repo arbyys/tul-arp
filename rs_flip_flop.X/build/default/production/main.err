@@ -1,0 +1,12 @@
+Message[305] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\MAIN.ASM 21 : Using default destination of 1 (file).
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\MAIN.ASM 21 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\CONFIG_IOS.INC 3 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\CONFIG_IOS.INC 4 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\CONFIG_IOS.INC 5 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\CONFIG_IOS.INC 8 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\CONFIG_IOS.INC 10 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\CONFIG_IOS.INC 12 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\CONFIG_IOS.INC 15 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\CONFIG_IOS.INC 17 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Message[302] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\CONFIG_IOS.INC 19 : Register in operand not in bank 0.  Ensure that bank bits are correct.
+Warning[205] C:\USERS\ARBYS\DOCUMENTS\TUL\TUL-ARP\RS_FLIP_FLOP.X\MAIN.ASM 34 : Found directive in column 1. (END)
