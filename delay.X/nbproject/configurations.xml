@@ -23,7 +23,9 @@
       <itemPath>Beep.s</itemPath>
       <itemPath>Soucet.s</itemPath>
       <itemPath>Zaklad.s</itemPath>
+      <itemPath>Blik.s</itemPath>
     </logicalFolder>
+    <itemPath>cv6_display.s</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>
@@ -36,7 +38,7 @@
         <targetDevice>PIC16F1508</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
-        <platformTool>noID</platformTool>
+        <platformTool>PKOBSKDEPlatformTool</platformTool>
         <languageToolchain>pic-as</languageToolchain>
         <languageToolchainVersion>2.50</languageToolchainVersion>
         <platform>3</platform>
@@ -72,8 +74,36 @@
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
       <item path="Beep.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
       </item>
+      <item path="Blik.s" ex="true" overriding="false">
+      </item>
+      <PKOBSKDEPlatformTool>
+        <property key="firmware.download.all" value="false"/>
+      </PKOBSKDEPlatformTool>
+      <item path="Soucet.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
+      </item>
+      <Tool>
+        <property key="firmware.download.all" value="false"/>
+      </Tool>
       <item path="Zaklad.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
       </item>
       <pic-as-assembler>
         <property key="fmax-errors" value="20"/>

@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=Soucet.s
+SOURCEFILES_QUOTED_IF_SPACED=cv6_display.s
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/Soucet.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/Soucet.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/cv6_display.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/cv6_display.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/Soucet.o
+OBJECTFILES=${OBJECTDIR}/cv6_display.o
 
 # Source Files
-SOURCEFILES=Soucet.s
+SOURCEFILES=cv6_display.s
 
 
 
@@ -89,21 +89,21 @@ FINAL_IMAGE_NAME_MINUS_EXTENSION=${DISTDIR}/delay.X.${IMAGE_TYPE}
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: pic-as-assembler
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/Soucet.o: Soucet.s  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/cv6_display.o: cv6_display.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/Soucet.o 
+	@${RM} ${OBJECTDIR}/cv6_display.o 
 	${MP_AS} -mcpu=PIC16F1508 -c \
-	-o ${OBJECTDIR}/Soucet.o \
-	Soucet.s \
+	-o ${OBJECTDIR}/cv6_display.o \
+	cv6_display.s \
 	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 else
-${OBJECTDIR}/Soucet.o: Soucet.s  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/cv6_display.o: cv6_display.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/Soucet.o 
+	@${RM} ${OBJECTDIR}/cv6_display.o 
 	${MP_AS} -mcpu=PIC16F1508 -c \
-	-o ${OBJECTDIR}/Soucet.o \
-	Soucet.s \
+	-o ${OBJECTDIR}/cv6_display.o \
+	cv6_display.s \
 	  -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 endif
