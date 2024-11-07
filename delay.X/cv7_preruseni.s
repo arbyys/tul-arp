@@ -67,7 +67,7 @@ Start:
     bsf		IOCAN,5		; BT2(RA5) nastavena detekce negativni hrany
     clrf	IOCAF		; smazat priznak doted detekovanych hran
 
-    bsf		INTCON, 3	; IOCIE	;povolit preruseni od IOC
+    bsf		INTCON,3	; IOCIE	;povolit preruseni od IOC
     bsf		INTCON,7	; GIE	;povolit preruseni jako takove	
 
     movlb	0		; Banka0 s PORT

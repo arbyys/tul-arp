@@ -11,8 +11,8 @@
 # All addresses and the length are given in unqualified hexadecimal
 # in delta units.  Any other numeric values are decimal.
 %PSECTS
-$build/default/production/cv6_display.o
-PROGMEM0 - 0 0 0 9E 2 1
+$build/default/production/cv7_preruseni.o
+PROGMEM0 - 0 0 0 2E 2 1
 config CONFIG 4 8007 8007 2 2 1
 # %UNUSED Section
 # This section enumerates the unused ranges of each CLASS. Each entry
@@ -26,8 +26,8 @@ RAM 120-16F 1
 BANK0 20-6F 1
 BANK1 A0-EF 1
 BANK2 120-16F 1
-CONST 9E-FFF 2
-ENTRY 9E-FFF 2
+CONST 2E-FFF 2
+ENTRY 2E-FFF 2
 IDLOC 8000-8003 2
 SFR10 500-56F 1
 SFR11 580-5EF 1
@@ -51,7 +51,9 @@ SFR28 E00-E6F 1
 SFR29 E80-EEF 1
 SFR30 F00-F6F 1
 SFR31 F80-FEF 1
-CODE 9E-FFF 2
+CODE 2E-FFF 2
+SFR1 80-9F 1
+SFR2 100-11F 1
 SFR3 180-1EF 1
 SFR4 200-26F 1
 SFR5 280-2EF 1
@@ -61,8 +63,8 @@ SFR8 400-46F 1
 SFR9 480-4EF 1
 BIGRAM 2000-20EF 1
 COMMON 70-7F 1
-STRCODE 9E-FFF 2
-STRING 9E-FFF 2
+STRCODE 2E-FFF 2
+STRING 2E-FFF 2
 # %LINETAB Section
 # This section enumerates the file/line to address mappings.
 # The beginning of the section is indicated by %LINETAB.
@@ -76,163 +78,51 @@ STRING 9E-FFF 2
 # are in ascending order of addresses.
 # All other numeric values are in decimal.
 %LINETAB
-$build/default/production/cv6_display.o
-0 PROGMEM0 ABS >49:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-1 PROGMEM0 ABS >50:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-4 PROGMEM0 ABS >53:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-5 PROGMEM0 ABS >54:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-6 PROGMEM0 ABS >58:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-7 PROGMEM0 ABS >59:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-8 PROGMEM0 ABS >60:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-9 PROGMEM0 ABS >62:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-A PROGMEM0 ABS >63:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-B PROGMEM0 ABS >65:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-C PROGMEM0 ABS >69:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-D PROGMEM0 ABS >71:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-E PROGMEM0 ABS >82:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-F PROGMEM0 ABS >83:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-10 PROGMEM0 ABS >84:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-11 PROGMEM0 ABS >85:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-12 PROGMEM0 ABS >88:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-13 PROGMEM0 ABS >91:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-14 PROGMEM0 ABS >92:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-15 PROGMEM0 ABS >94:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-16 PROGMEM0 ABS >95:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-17 PROGMEM0 ABS >96:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-18 PROGMEM0 ABS >99:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-19 PROGMEM0 ABS >101:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-1A PROGMEM0 ABS >102:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-1B PROGMEM0 ABS >103:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-1C PROGMEM0 ABS >105:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-1D PROGMEM0 ABS >106:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-1E PROGMEM0 ABS >107:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-1F PROGMEM0 ABS >109:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-20 PROGMEM0 ABS >110:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-21 PROGMEM0 ABS >111:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-22 PROGMEM0 ABS >113:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-23 PROGMEM0 ABS >114:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-24 PROGMEM0 ABS >115:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-25 PROGMEM0 ABS >117:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-26 PROGMEM0 ABS >118:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-27 PROGMEM0 ABS >119:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-28 PROGMEM0 ABS >120:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-29 PROGMEM0 ABS >121:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-2A PROGMEM0 ABS >123:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-2B PROGMEM0 ABS >127:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-2C PROGMEM0 ABS >129:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-2D PROGMEM0 ABS >131:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-2E PROGMEM0 ABS >132:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-2F PROGMEM0 ABS >133:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-30 PROGMEM0 ABS >134:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-31 PROGMEM0 ABS >135:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-32 PROGMEM0 ABS >136:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-33 PROGMEM0 ABS >137:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-34 PROGMEM0 ABS >138:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
-35 PROGMEM0 ABS >2:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-36 PROGMEM0 ABS >3:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-37 PROGMEM0 ABS >4:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-38 PROGMEM0 ABS >5:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-39 PROGMEM0 ABS >6:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-3A PROGMEM0 ABS >7:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-3B PROGMEM0 ABS >8:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-3C PROGMEM0 ABS >9:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-3D PROGMEM0 ABS >10:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-3E PROGMEM0 ABS >11:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-3F PROGMEM0 ABS >12:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-40 PROGMEM0 ABS >13:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-41 PROGMEM0 ABS >14:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-42 PROGMEM0 ABS >15:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-43 PROGMEM0 ABS >16:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-44 PROGMEM0 ABS >17:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-45 PROGMEM0 ABS >18:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-46 PROGMEM0 ABS >19:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-47 PROGMEM0 ABS >20:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
-48 PROGMEM0 ABS >17:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-49 PROGMEM0 ABS >18:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-4A PROGMEM0 ABS >19:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-4B PROGMEM0 ABS >20:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-4C PROGMEM0 ABS >22:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-4D PROGMEM0 ABS >23:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-4E PROGMEM0 ABS >24:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-4F PROGMEM0 ABS >25:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-50 PROGMEM0 ABS >26:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-51 PROGMEM0 ABS >27:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-52 PROGMEM0 ABS >28:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-53 PROGMEM0 ABS >29:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-54 PROGMEM0 ABS >30:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-55 PROGMEM0 ABS >31:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-56 PROGMEM0 ABS >32:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-57 PROGMEM0 ABS >33:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-58 PROGMEM0 ABS >34:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-59 PROGMEM0 ABS >35:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-5A PROGMEM0 ABS >36:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-5B PROGMEM0 ABS >37:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-5C PROGMEM0 ABS >38:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-5D PROGMEM0 ABS >39:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-5E PROGMEM0 ABS >40:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-5F PROGMEM0 ABS >41:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-60 PROGMEM0 ABS >42:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-61 PROGMEM0 ABS >44:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-62 PROGMEM0 ABS >50:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-63 PROGMEM0 ABS >51:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-64 PROGMEM0 ABS >52:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-65 PROGMEM0 ABS >54:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-66 PROGMEM0 ABS >55:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-67 PROGMEM0 ABS >57:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-68 PROGMEM0 ABS >58:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-69 PROGMEM0 ABS >60:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-6A PROGMEM0 ABS >61:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-6B PROGMEM0 ABS >63:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-6C PROGMEM0 ABS >64:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-6D PROGMEM0 ABS >66:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-6E PROGMEM0 ABS >67:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-6F PROGMEM0 ABS >68:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-70 PROGMEM0 ABS >69:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-71 PROGMEM0 ABS >70:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-72 PROGMEM0 ABS >71:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-73 PROGMEM0 ABS >72:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-74 PROGMEM0 ABS >73:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-75 PROGMEM0 ABS >75:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-76 PROGMEM0 ABS >76:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-77 PROGMEM0 ABS >77:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-78 PROGMEM0 ABS >79:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-79 PROGMEM0 ABS >80:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-7A PROGMEM0 ABS >82:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-7B PROGMEM0 ABS >83:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-7C PROGMEM0 ABS >84:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-7D PROGMEM0 ABS >85:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-7E PROGMEM0 ABS >86:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-7F PROGMEM0 ABS >87:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-80 PROGMEM0 ABS >89:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-81 PROGMEM0 ABS >96:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-82 PROGMEM0 ABS >97:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-83 PROGMEM0 ABS >98:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-84 PROGMEM0 ABS >99:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-85 PROGMEM0 ABS >100:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-86 PROGMEM0 ABS >101:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-87 PROGMEM0 ABS >102:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-88 PROGMEM0 ABS >103:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-89 PROGMEM0 ABS >104:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-8A PROGMEM0 ABS >105:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-8B PROGMEM0 ABS >106:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-8C PROGMEM0 ABS >107:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-8D PROGMEM0 ABS >108:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-8E PROGMEM0 ABS >109:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-8F PROGMEM0 ABS >110:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-90 PROGMEM0 ABS >111:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-91 PROGMEM0 ABS >112:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-92 PROGMEM0 ABS >113:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-93 PROGMEM0 ABS >121:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-94 PROGMEM0 ABS >122:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-95 PROGMEM0 ABS >123:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-96 PROGMEM0 ABS >124:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-97 PROGMEM0 ABS >125:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-98 PROGMEM0 ABS >126:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-99 PROGMEM0 ABS >127:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-9A PROGMEM0 ABS >128:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-9B PROGMEM0 ABS >129:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-9C PROGMEM0 ABS >130:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
-9D PROGMEM0 ABS >131:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Display.inc
+$build/default/production/cv7_preruseni.o
+0 PROGMEM0 ABS >37:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+1 PROGMEM0 ABS >38:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+4 PROGMEM0 ABS >41:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+5 PROGMEM0 ABS >42:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+6 PROGMEM0 ABS >43:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+7 PROGMEM0 ABS >44:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+8 PROGMEM0 ABS >45:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+9 PROGMEM0 ABS >46:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+A PROGMEM0 ABS >47:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+B PROGMEM0 ABS >50:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+C PROGMEM0 ABS >51:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+D PROGMEM0 ABS >52:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+E PROGMEM0 ABS >53:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+F PROGMEM0 ABS >58:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+10 PROGMEM0 ABS >59:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+11 PROGMEM0 ABS >60:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+12 PROGMEM0 ABS >62:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+13 PROGMEM0 ABS >65:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+14 PROGMEM0 ABS >66:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+15 PROGMEM0 ABS >67:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+16 PROGMEM0 ABS >68:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+17 PROGMEM0 ABS >70:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+18 PROGMEM0 ABS >71:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+19 PROGMEM0 ABS >73:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+1A PROGMEM0 ABS >77:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv7_preruseni.s
+1B PROGMEM0 ABS >2:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+1C PROGMEM0 ABS >3:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+1D PROGMEM0 ABS >4:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+1E PROGMEM0 ABS >5:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+1F PROGMEM0 ABS >6:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+20 PROGMEM0 ABS >7:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+21 PROGMEM0 ABS >8:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+22 PROGMEM0 ABS >9:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+23 PROGMEM0 ABS >10:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+24 PROGMEM0 ABS >11:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+25 PROGMEM0 ABS >12:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+26 PROGMEM0 ABS >13:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+27 PROGMEM0 ABS >14:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+28 PROGMEM0 ABS >15:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+29 PROGMEM0 ABS >16:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+2A PROGMEM0 ABS >17:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+2B PROGMEM0 ABS >18:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+2C PROGMEM0 ABS >19:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
+2D PROGMEM0 ABS >20:C:\Users\arbys\Documents\tul\tul-arp\delay.X/Config_IOs.inc
 # %SYMTAB Section
 # An enumeration of all symbols in the program.
 # The beginning of the section is indicated by %SYMTAB.
@@ -245,7 +135,7 @@ F PROGMEM0 ABS >83:C:\Users\arbys\Documents\tul\tul-arp\delay.X\cv6_display.s
 # was defined in a psect then <psect> will be "-". File-name
 # is the name of the object file in which the symbol was defined.
 %SYMTAB
-__Hspace_0 9E 0 ABS 0 - -
+__Hspace_0 2E 0 ABS 0 - -
 __Hspace_1 0 0 ABS 0 - -
 __Hspace_4 10010 0 ABS 0 - -
 __Hudata_bank0 0 0 ABS 0 udata_bank0 -
@@ -270,7 +160,7 @@ __Ludata_bank0 0 0 ABS 0 udata_bank0 -
 __Ludata_bank1 0 0 ABS 0 udata_bank1 -
 __Ludata_bank2 0 0 ABS 0 udata_bank2 -
 __H__absolute__ 0 0 ABS 0 __absolute__ -
-__HPROGMEM0 13C 0 ABS 0 PROGMEM0 -
+__HPROGMEM0 5C 0 ABS 0 PROGMEM0 -
 __Hudata_shr 0 0 ABS 0 udata_shr -
 __Ludata_shr 0 0 ABS 0 udata_shr -
 # %SPLITSTAB Section

@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=cv7_preruseni.s
+SOURCEFILES_QUOTED_IF_SPACED=cv7_adc_na_7seg.s
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/cv7_preruseni.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/cv7_preruseni.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/cv7_adc_na_7seg.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/cv7_adc_na_7seg.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/cv7_preruseni.o
+OBJECTFILES=${OBJECTDIR}/cv7_adc_na_7seg.o
 
 # Source Files
-SOURCEFILES=cv7_preruseni.s
+SOURCEFILES=cv7_adc_na_7seg.s
 
 
 
@@ -89,21 +89,21 @@ FINAL_IMAGE_NAME_MINUS_EXTENSION=${DISTDIR}/delay.X.${IMAGE_TYPE}
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: pic-as-assembler
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/cv7_preruseni.o: cv7_preruseni.s  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/cv7_adc_na_7seg.o: cv7_adc_na_7seg.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/cv7_preruseni.o 
+	@${RM} ${OBJECTDIR}/cv7_adc_na_7seg.o 
 	${MP_AS} -mcpu=PIC16F1508 -c \
-	-o ${OBJECTDIR}/cv7_preruseni.o \
-	cv7_preruseni.s \
+	-o ${OBJECTDIR}/cv7_adc_na_7seg.o \
+	cv7_adc_na_7seg.s \
 	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 else
-${OBJECTDIR}/cv7_preruseni.o: cv7_preruseni.s  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/cv7_adc_na_7seg.o: cv7_adc_na_7seg.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/cv7_preruseni.o 
+	@${RM} ${OBJECTDIR}/cv7_adc_na_7seg.o 
 	${MP_AS} -mcpu=PIC16F1508 -c \
-	-o ${OBJECTDIR}/cv7_preruseni.o \
-	cv7_preruseni.s \
+	-o ${OBJECTDIR}/cv7_adc_na_7seg.o \
+	cv7_adc_na_7seg.s \
 	  -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 endif
