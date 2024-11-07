@@ -1,7 +1,8 @@
-# 1 "Blik.s"
+# 1 "cv6_display.s"
 # 1 "<built-in>" 1
-# 1 "Blik.s" 2
-;Zaklad pro psani vlastnich programu
+# 1 "cv6_display.s" 2
+;Desitkovy citac (0 az 255)
+
 PROCESSOR 16F1508
 
 
@@ -6423,16 +6424,21 @@ stk_offset SET 0
 auto_size SET 0
 ENDM
 # 7 "C:\\Program Files\\Microchip\\xc8\\v2.50\\pic\\include\\xc.inc" 2 3
-# 28 "Blik.s" 2
+# 29 "cv6_display.s" 2
+
+
 
 ;VARIABLE DEFINITIONS
 ;COMMON RAM 0x70 to 0x7F
 cnt1 EQU 0x70
 cnt2 EQU 0x71
-num7S EQU 0x72 ; Allocating 1 byte for num7S
-dispL EQU 0x73 ; Allocating 1 byte for dispL
-dispM EQU 0x74 ; Allocating 1 byte for dispM
-dispR EQU 0x75 ; Allocating 1 byte for dispR
+cnt3 EQU 0x72
+sec EQU 0x73 ; citac 1 sekundy
+num7S EQU 0x74 ; cislo pro zobrazeni, dalsi 3B budou displeje!
+dispL EQU 0x75 ; levy 7seg
+dispM EQU 0x76 ; prostredni 7seg
+dispR EQU 0x77 ; pravy 7seg
+
 
 
 ;**********************************************************************
@@ -6448,46 +6454,92 @@ RESETVEC:
 
 
 Start:
-    movlb 1 ;Bank1
-    movlw 01101000B ;4MHz Medium
-    movwf OSCCON ;nastaveni hodin
+    movlb 1 ; Bank1
+    movlw 01101000B ; 4MHz Medium
+    movwf OSCCON ; nastaveni hodin
 
-    call Config_IOs ;vola nastaveni pinu
-    movlb 0 ;Bank0
+    call Config_IOs
+    call Config_SPI ; konfiguruje periferie
+
+    movlb 0
 
 
+Main:
+    clrf sec ; vynulovani registru sec
 
-Delay_ms:
-    movwf cnt2 ; napln?ní ?íta?e vn?j?í smy?ky z W
-OutLp:
-    movlw 249 ; trvání smy?ky 249*4+4=1000 cykl?
-    movwf cnt1 ; napln?ní ?íta?e vnit?ní smy?ky
-InLp:
-    nop ; t?lo vnit?ní smy?ky
-    decfsz cnt1,F
-    goto InLp ; skok na opakování vnit?ní smy?ky
-    decfsz cnt2,F
-    goto OutLp ; skok na opakování vn?j?í smy?ky
+    goto Scan
+Scan:
+    ;movf PORTA,W ; 1.?tení portu s p?ipojeným tla?ítkem
+    ;andlw MASK ; vymaskování nepodstatných bit?
+    ;movwf temp ; ulo?ení aktuálního stavu
+    ;movlw SCANDELAY
+    ;call Delay_ms ; prodleva
+    ;movf PORTA,W ; 2.?tení portu s p?ipojeným tla?ítkem
+    ;andlw MASK
+    ;xorwf temp,W ; porovnání s ulo?eným stavem
+    ;btfss STATUS,Z ; p?eskok p?i shod? stav?
+    btfss PORTA,4
+    goto Scan
+    call Inc
+    call Read
+    ;movlw 200
+    ;call Delay_ms
+    goto Scan ; skok na opakování testu
+
+Read:
+    movlw 100
+    call Delay_ms
+    ;btfsc PORTA,4
+    btfss PORTA,4
+    return
+    goto Read
+
+Inc:
+    incf sec,F
+
+    movf sec,W
+    movwf num7S ; zapsani cisla pro zobrazeni
+    call Bin2Bcd ; z num7S udela BCD cisla v dispL-dispM-dispR, zapisuje stovky, desitky a jednotky
+
+    movf dispL,W
+    call Byte2Seg ; 4bit. cislo ve W zmeni na segment pro zobrazeni
+    movwf dispL
+
+    movf dispM,W
+    call Byte2Seg ; 4bit. cislo ve W zmeni na segment pro zobrazeni
+    movwf dispM
+
+    movf dispR,W
+    call Byte2Seg ; 4bit. cislo ve W zmeni na segment pro zobrazeni
+    movwf dispR
+
+    call SendByte7S ; odesle W vzdy do leveho displeje (posun ostat.)
+    movf dispM,W
+    call SendByte7S ; odesle W vzdy do leveho displeje (posun ostat.)
+    movf dispL,W
+    call SendByte7S ; odesle W vzdy do leveho displeje (posun ostat.)
+
     return
 
-Main: ;hlavni smycka...
-    movlw 100
-    btfss PORTA,4
-    movlw 200
-    call Delay_ms
-    bsf PORTC,5
-    movlw 100
-    btfss PORTA,4
-    movlw 200
-    call Delay_ms
-    bcf PORTC,5
 
-    goto Main ;zacykleni
+Delay100: ; zpozdeni 100 ms
+    movlw 100
+Delay_ms:
+    movwf cnt2
+OutLp:
+    movlw 249
+    movwf cnt1
+    nop
+    decfsz cnt1,F
+    goto $-2
+    decfsz cnt2,F
+    goto OutLp
+    return
 
 
 
 # 1 "./Config_IOs.inc" 1
-Config_IOs: ;config PORTA,4 ((PORTA) and 07Fh), 4, BT2 ((PORTA) and 07Fh), 5, P1 ((PORTC) and 07Fh), 2 (AN6), 00011000B ; P2 -> AN10 ((PORTB) and 07Fh), 4 (AN10) and LED1-3 ((PORTC) and 07Fh), 5 ((PORTC) and 07Fh), 3 ((PORTA) and 07Fh), 2
+Config_IOs: ;config PORTA,4 ((PORTA) and 07Fh), 4, PORTA,5 ((PORTA) and 07Fh), 5, P1 ((PORTC) and 07Fh), 2 (AN6), P2 ((PORTB) and 07Fh), 4 (AN10) and LED1-3 ((PORTC) and 07Fh), 5 ((PORTC) and 07Fh), 3 ((PORTA) and 07Fh), 2
  movlb 2 ;Bank2
  clrf LATA
  clrf LATB
@@ -6507,6 +6559,139 @@ Config_IOs: ;config PORTA,4 ((PORTA) and 07Fh), 4, BT2 ((PORTA) and 07Fh), 5, P1
  movlw 00010101B
  movwf TRISC
  return
-# 90 "Blik.s" 2
+# 142 "cv6_display.s" 2
+# 1 "./Display.inc" 1
+; Display.INC
+; Podprogramy obsluhy displeje
+
+;*******************************************************
+; Signaly obsluhy displeje na EduKitBeta
+; SPI rozhrani k posuvnym registrum budicim LED segmenty
+
+
+
+;*******************************************************
+
+; Registry nadefinovat v .asm, jmena a poradi nutno dodrzet: num7S, disp(L/M/R)
+
+;***********************************************************
+; Konfigurace SPI pro komunikaci se 7seg
+Config_SPI:
+ movlb 4 ;Bank4
+ clrf SSP1STAT
+ movlw 00110000B ;high idle state, Fosc/4, SPI ON
+ movwf SSP1CON1
+
+ clrw
+ movlb 0 ;Bank0
+ bcf PORTC,6 ; signal chip-select obvodu 4094 ;!CS -> low
+ movlb 4 ;Bank4
+ movwf SSP1BUF
+ btfss SSP1STAT,0 ;ceka do vyprazdneni bufferu
+ goto $-1
+ movf SSP1BUF,W ;prazdne cteni HLAVNE NEZAPISOVAT ZPATKY DO F!
+ clrw
+ movwf SSP1BUF
+ btfss SSP1STAT,0 ;ceka do vyprazdneni bufferu
+ goto $-1
+ movf SSP1BUF,W ;prazdne cteni HLAVNE NEZAPISOVAT ZPATKY DO F!
+ clrw
+ movwf SSP1BUF
+ btfss SSP1STAT,0 ;ceka do vyprazdneni bufferu
+ goto $-1
+ movf SSP1BUF,W ;prazdne cteni HLAVNE NEZAPISOVAT ZPATKY DO F!
+ clrw
+ movlb 0
+ bsf PORTC,6 ; signal chip-select obvodu 4094 ;!CS -> high
+
+ return
+
+
+;***********************************************************************
+; Prevod binarniho cisla (16 bitu hval:lval) na BCD (4 digity hbcd:lbcd)
+Bin2Bcd:
+ clrf dispR
+ clrf dispM
+ clrf dispL
+
+ lslf num7S,F ;nejvyssi bit
+ rlf dispR,F
+
+ lslf num7S,F ;2. nejvyssi bit
+ rlf dispR,F
+
+ lslf num7S,F ;3. nejvyssi
+ rlf dispR,F
+
+ movlw 5 ;zbylych 5 bitu v loopu
+ movwf dispM ;slouzi jako pocitadlo
+
+ShLoop: movf dispR,W ;test spodniho nibble
+ addlw 0x03
+ btfsc WREG,3 ;je po pricteni 3 vetsi/roven 8 (puvodne >= 5)
+ movwf dispR ;ano prepsat prictenym
+ movf dispR,W ;test horniho nibble
+ addlw 0x30
+ btfsc WREG,7 ;je po pricteni 3 vetsi/roven 8 (puvodne >= 5)
+ movwf dispR ;ano prepsat prictenym
+
+ lslf num7S,F ;postupne posuny pres C
+ rlf dispR,F
+ rlf dispL,F
+
+ decfsz dispM,F ;odecist pocet posunuti
+ goto ShLoop
+
+ movf dispR,W ;rozdelit nibbles do dvou bytu
+ movwf dispM
+ swapf dispM,F
+ movlw 0x0F
+ andwf dispR,F ;pro jistotu vymaskovat nepouzite nibbles
+ andwf dispM,F
+
+ return
+
+
+;***********************************************************
+; Tabulka prevodu 4-bitoveho kodu (hexa) na 7-segmentovy kod
+; Desetinna tecka se dodatecne koduje do 0. bitu (napr. inkrementaci)
+Byte2Seg:
+ andlw 0x0F ; omezeni na 4 nizsi bity (hexa kod)
+ brw ; pricte w k citaci instrukci
+ retlw 11111100B ; zobrazi 0
+ retlw 01100000B ; zobrazi 1
+ retlw 11011010B ; zobrazi 2
+ retlw 11110010B ; zobrazi 3
+ retlw 01100110B ; zobrazi 4
+ retlw 10110110B ; zobrazi 5
+ retlw 10111110B ; zobrazi 6
+ retlw 11100000B ; zobrazi 7
+ retlw 11111110B ; zobrazi 8
+ retlw 11110110B ; zobrazi 9
+ retlw 11101110B ; zobrazi 'A'
+ retlw 00111110B ; zobrazi 'b'
+ retlw 10011100B ; zobrazi 'C'
+ retlw 01111010B ; zobrazi 'd'
+ retlw 10011110B ; zobrazi 'E'
+ retlw 10001110B ; zobrazi 'F'
+; retlw 00000010B ; zobrazi '-'
+
+
+
+;*******************************************************************************
+; Seriovy prenos W do leveho displeje, aktualne zobrazene se posunou doprava
+SendByte7S:
+ movlb 0 ;Bank0
+ bcf PORTC,6 ; signal chip-select obvodu 4094 ;!CS -> low
+ movlb 4 ;Bank4
+ movwf SSP1BUF
+ btfss SSP1STAT,0 ;ceka do vyprazdneni bufferu
+ goto $-1
+ movf SSP1BUF,W ;prazdne cteni HLAVNE NEZAPISOVAT ZPATKY DO F!
+ clrw
+ movlb 0
+ bsf PORTC,6 ; signal chip-select obvodu 4094 ;!CS -> high
+ return
+# 143 "cv6_display.s" 2
 
 END

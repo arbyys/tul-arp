@@ -3,6 +3,9 @@
 PROCESSOR 16F1508 
 
     
+#define BT1	PORTA,4
+#define BT2	PORTA,5
+    
 ; window -> TMW -> conf. bits -> ctl c ctr v
 ; CONFIG1
 CONFIG  FOSC = INTOSC         ; Oscillator Selection Bits (INTOSC oscillator: I/O function on CLKIN pin)
@@ -64,9 +67,38 @@ Start:
 	
 Main:	
     clrf    sec		    ; vynulovani registru sec
+
+    goto    Scan
+Scan: 
+    ;movf    PORTA,W	    ; 1.?tení portu s p?ipojeným tla?ítkem
+    ;andlw   MASK	    ; vymaskování nepodstatných bit?
+    ;movwf   temp	    ; ulo?ení aktuálního stavu
+    ;movlw   SCANDELAY
+    ;call    Delay_ms	    ; prodleva
+    ;movf    PORTA,W	    ; 2.?tení portu s p?ipojeným tla?ítkem
+    ;andlw   MASK
+    ;xorwf   temp,W	    ; porovnání s ulo?eným stavem
+    ;btfss   STATUS,Z	    ; p?eskok p?i shod? stav?
+    btfss   BT1
+    goto    Scan
+    call    Inc
+    call    Read
+    ;movlw   200
+    ;call    Delay_ms    
+    goto    Scan	    ; skok na opakování testu
+
+Read:
+    movlw   100
+    call    Delay_ms
+    ;btfsc   BT1
+    btfss   BT1
+    return
+    goto    Read
 	
-Loop:	
-    movf    sec,W
+Inc:	
+    incf    sec,F
+    
+    movf    sec,W 
     movwf   num7S	    ; zapsani cisla pro zobrazeni
     call    Bin2Bcd	    ; z num7S udela BCD cisla v dispL-dispM-dispR, zapisuje stovky, desitky a jednotky
 
@@ -80,24 +112,17 @@ Loop:
 
     movf    dispR,W
     call    Byte2Seg	    ; 4bit. cislo ve W zmeni na segment pro zobrazeni
-    movwf   dispR	
+    movwf   dispR
+    
     call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
     movf    dispM,W
     call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
     movf    dispL,W
     call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
 
-
-    movlw   10		    ; zpozdeni 10*100=1000 ms
-    movwf   cnt3
-    call    Delay100
-    decfsz  cnt3,F
-    goto    $-2
-
-    incf    sec,F
-    goto    Loop
-
-	
+    return
+    
+    
 Delay100:		    ; zpozdeni 100 ms
     movlw   100
 Delay_ms:

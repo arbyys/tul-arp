@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=cv6_display.s
+SOURCEFILES_QUOTED_IF_SPACED=cv7_preruseni.s
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/cv6_display.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/cv6_display.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/cv7_preruseni.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/cv7_preruseni.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/cv6_display.o
+OBJECTFILES=${OBJECTDIR}/cv7_preruseni.o
 
 # Source Files
-SOURCEFILES=cv6_display.s
+SOURCEFILES=cv7_preruseni.s
 
 
 
@@ -89,21 +89,21 @@ FINAL_IMAGE_NAME_MINUS_EXTENSION=${DISTDIR}/delay.X.${IMAGE_TYPE}
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: pic-as-assembler
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/cv6_display.o: cv6_display.s  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/cv7_preruseni.o: cv7_preruseni.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/cv6_display.o 
+	@${RM} ${OBJECTDIR}/cv7_preruseni.o 
 	${MP_AS} -mcpu=PIC16F1508 -c \
-	-o ${OBJECTDIR}/cv6_display.o \
-	cv6_display.s \
+	-o ${OBJECTDIR}/cv7_preruseni.o \
+	cv7_preruseni.s \
 	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 else
-${OBJECTDIR}/cv6_display.o: cv6_display.s  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/cv7_preruseni.o: cv7_preruseni.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/cv6_display.o 
+	@${RM} ${OBJECTDIR}/cv7_preruseni.o 
 	${MP_AS} -mcpu=PIC16F1508 -c \
-	-o ${OBJECTDIR}/cv6_display.o \
-	cv6_display.s \
+	-o ${OBJECTDIR}/cv7_preruseni.o \
+	cv7_preruseni.s \
 	  -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 endif

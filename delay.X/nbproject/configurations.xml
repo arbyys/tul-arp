@@ -24,8 +24,10 @@
       <itemPath>Soucet.s</itemPath>
       <itemPath>Zaklad.s</itemPath>
       <itemPath>Blik.s</itemPath>
+      <itemPath>cv6_display.s</itemPath>
+      <itemPath>cv7_adc_na_7seg.s</itemPath>
+      <itemPath>cv7_preruseni.s</itemPath>
     </logicalFolder>
-    <itemPath>cv6_display.s</itemPath>
   </logicalFolder>
   <sourceRootList>
     <Elem>.</Elem>
@@ -82,6 +84,12 @@
         </pic-as-linker>
       </item>
       <item path="Blik.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
       </item>
       <PKOBSKDEPlatformTool>
         <property key="firmware.download.all" value="false"/>
@@ -104,6 +112,10 @@
         </pic-as-global>
         <pic-as-linker>
         </pic-as-linker>
+      </item>
+      <item path="cv6_display.s" ex="true" overriding="false">
+      </item>
+      <item path="cv7_adc_na_7seg.s" ex="true" overriding="false">
       </item>
       <pic-as-assembler>
         <property key="fmax-errors" value="20"/>
