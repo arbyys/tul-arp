@@ -30,6 +30,8 @@ CONFIG  LVP = ON              ; Low-Voltage Programming Enable (Low-voltage prog
 ;COMMON RAM 0x70 to 0x7F
 tmp	EQU 0x70
 
+#define BT1	PORTA,4
+#define BT2	PORTA,5
     
 ;**********************************************************************
 PSECT PROGMEM0,delta=2, abs
@@ -75,24 +77,66 @@ Loop:
     nop				;pro jistotu (pocka jeden takt)
     btfss	INDF1,4		; TXIF	;je TX buffer prazdny?
     goto	$-1
-    movwf	TXREG		;zapsat do odesilaciho bufferu
+    ;movwf	TXREG		;zapsat do odesilaciho bufferu
+    
+    movlw	'?'
+    subwf	tmp,W
+    
+    btfsc	STATUS,2
+    call	Answer
+    
+    ;movlw	0x20
+    ;subwf	tmp,W		;z maleho pismena velke
+    
+    ;movwf	TXREG		;zapsat do odesilaciho bufferu
 
-    movlw	0x20
-    subwf	tmp,W		;z maleho pismena velke
-
-
-    nop				;pro jistotu
-    btfss	INDF1,4		; TXIF	;je TX buffer prazdny?
-    goto	$-1
-    movwf	TXREG		;zapsat do odesilaciho bufferu
-
-    nop				;pro jistotu
+    ;nop				;pro jistotu
     btfss	TXSTA,1		; TRMT	;ceka zde dokud se vse neodesle
     goto	$-1
 
     goto    Loop
 
-
+Answer:
+    movlw   'B'
+    call    SendChar
+    movlw   'T'
+    call    SendChar
+    movlw   '1'
+    call    SendChar
+    movlw   '_'
+    call    SendChar
+    movlb   0
+    btfss   BT1
+    movlw   '0'
+    btfsc   BT1
+    movlw   '1'
+    movlb   3
+    call    SendChar
+    movlw   '_'
+    call    SendChar
+    movlw   'B'
+    call    SendChar
+    movlw   'T'
+    call    SendChar
+    movlw   '2'
+    call    SendChar
+    movlw   '_'
+    call    SendChar
+    movlb   0
+    btfss   BT2
+    movlw   '0'
+    btfsc   BT2
+    movlw   '1'
+    movlb   3
+    call    SendChar
+    return
+    
+SendChar:
+    nop				;pro jistotu
+    btfss	INDF1,4		; TXIF	;je TX buffer prazdny?
+    goto	$-1
+    movwf	TXREG
+    return
 	
 #include	"Config_IOs.inc"
 END

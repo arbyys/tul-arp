@@ -1,12 +1,12 @@
-# 1 "cv7_adc_na_7seg.s"
+# 1 "cv8_seriova_linka.s"
 # 1 "<built-in>" 1
-# 1 "cv7_adc_na_7seg.s" 2
-;zobrazi hodnotu z ADC (potenciometr 1) na 7seg
+# 1 "cv8_seriova_linka.s" 2
+;prijme pismeno z PC, odesle zpatky male i velke
+;9600, 8 b, 1 stop, bez parity a rizeni toku
+;ls /dev/tty.* or ls /dev/cu.*
+;screen /dev/cu.usbserial-D37LWKJO 9600,cs8,0,0,1
+
 PROCESSOR 16F1508
-
-
-
-
 
 ; window -> TMW -> conf. bits -> ctl c ctr v
 ; CONFIG1
@@ -6423,165 +6423,123 @@ stk_offset SET 0
 auto_size SET 0
 ENDM
 # 7 "C:\\Program Files\\Microchip\\xc8\\v2.50\\pic\\include\\xc.inc" 2 3
-# 28 "cv7_adc_na_7seg.s" 2
+# 28 "cv8_seriova_linka.s" 2
 
 ;VARIABLE DEFINITIONS
 ;COMMON RAM 0x70 to 0x7F
-cnt1 EQU 0x70
-cnt2 EQU 0x71
+tmp EQU 0x70
 
-num7S EQU 0x72 ; cislo pro zobrazeni, dalsi 3B budou displeje!
-dispL EQU 0x73 ; levy 7seg
-dispM EQU 0x74 ; prostredni 7seg
-dispR EQU 0x75 ; pravy 7seg
+
 
 
 ;**********************************************************************
 PSECT PROGMEM0,delta=2, abs
+
 RESETVEC:
     ORG 0x00
     PAGESEL Start
     GOTO Start
 
     ORG 0x04
-    movlb 7 ; Banka7 s IOC
-    btfss IOCAF,4 ; preruseni od PORTA,4(((PORTA) and 07Fh), 4)?
-    goto BT2Int ; je to tedy od PORTA,5 ...
-
-    movlb 1 ; Banka1 s ADC
-    movlw 00011001B ; P1 = AN6
-    movwf ADCON0
-
-    movlb 7 ; Banka7 s IOC
-    bcf IOCAF,4 ; vynulovat priznak od PORTA,4(((PORTA) and 07Fh), 4)
-    ;movlb 0 ; Banka0 s PORT
-    ;bsf PORTC,5
     retfie
 
-BT2Int:
-    movlb 1 ; Banka1 s ADC
-    movlw 00101001B ; P1 = AN10
-    movwf ADCON0
-
-    movlb 7 ; Banka7 s IOC
-    bcf IOCAF,5 ; vynulovat priznak od PORTA,5(((PORTA) and 07Fh), 5)
-    ;movlb 0 ; Banka0 s PORT
-    ;bcf PORTC,5
-    retfie
 
 Start:
-    movlb 1 ; Banka1
-    movlw 01101000B ; 4MHz Medium
-    movwf OSCCON ; nastaveni hodin
+    movlb 1 ;Banka1
+    movlw 01101000B ;4MHz Medium
+    movwf OSCCON ;nastaveni hodin
 
     call Config_IOs
-    call Config_SPI
 
-    ;nastaveni preruseni
-    movlb 7 ; Banka7 s IOC
-    bsf IOCAP,4 ; PORTA,4(((PORTA) and 07Fh), 4) nastavena detekce pozitivni hrany
-    bsf IOCAN,5 ; PORTA,5(((PORTA) and 07Fh), 5) nastavena detekce negativni hrany
-    clrf IOCAF ; smazat priznak doted detekovanych hran
+    ;config UART
+    movlb 3 ;Banka3 s UART
+    bsf TXSTA,5 ;((TXSTA) and 07Fh), 5 ;povoleni odesilani dat
+    bsf TXSTA,2 ;((TXSTA) and 07Fh), 2 ;jiny zpusob vypoctu baudrate
+    bsf RCSTA, 4 ;((RCSTA) and 07Fh), 4 ;povoleni prijimani dat
+    clrf SPBRGH
+    movlw 25 ;25 => 9615 bps s ((TXSTA) and 07Fh), 2 pri Fosc = 4MHz
+    movwf SPBRGL
+    bsf RCSTA,7 ;((RCSTA) and 07Fh), 7 ;po nastaveni vseho zapnout UART
 
-    bsf INTCON,3 ; ((INTCON) and 07Fh), 3 ;povolit preruseni od IOC
-    bsf INTCON,7 ; ((INTCON) and 07Fh), 7 ;povolit preruseni jako takove
+    clrf FSR1H
+    movlw 0x11
+    movwf FSR1L ;PIR1 pomoci nepr. addr. (pro ((PIR1) and 07Fh), 5)
 
-    ;config ADC
-    movlb 1 ; Banka1 s ADC
-    movlw 00011000B ; P1 = AN6
-    movwf ADCON0
-    movlw 01110000B ; leftAlig, FRC, VDD
-    movwf ADCON1
-    clrf ADCON2 ; single conv.
-    bsf ADCON0,0 ; ((ADCON0) and 07Fh), 0 ;zapnout ADC
 
+    movlb 3 ;Banka3 s UART
 Loop:
-    btfsc PORTA,4
-    call HandleBT1
-    btfsc PORTA,4
-    goto Loop
+    btfss INDF1,5 ;((PIR1) and 07Fh), 5 ;prisel byte?
+    goto $-1
+    movf RCREG,W ;nacist ho do W
+    movwf tmp ;ulozit protoze RCREG to po 1. precteni nehlida
 
-    movlb 1 ; Banka1 s ADC
-    bsf ADCON0,1 ; ((ADCON0) and 07Fh), 1 ; start A/D prevodu
-    btfsc ADCON0,1 ; ((ADCON0) and 07Fh), 1 ; A/D prevod skoncen?
-    goto $-1 ; pokud ne, navrat o radek vyse
+    nop ;pro jistotu (pocka jeden takt)
+    btfss INDF1,4 ; ((PIR1) and 07Fh), 4 ;je TX buffer prazdny?
+    goto $-1
+    ;movwf TXREG ;zapsat do odesilaciho bufferu
 
-    movf ADRESH,W ; nacte nejvyssich 8 bit? vysledku
-    movwf num7S ; zapsani cisla pro zobrazeni
-    call Bin2Bcd ; z num7S udela BCD cisla v dispL-dispM-dispR
+    movlw '?'
+    subwf tmp,W
 
-    movf dispL,W
-    call Byte2Seg ; 4bit. cislo ve W zmeni na segment pro zobrazeni
-    movwf dispL
+    btfsc STATUS,2
+    call Answer
 
-    movf dispM,W
-    call Byte2Seg ; 4bit. cislo ve W zmeni na segment pro zobrazeni
-    movwf dispM
+    ;movlw 0x20
+    ;subwf tmp,W ;z maleho pismena velke
 
-    movf dispR,W
-    call Byte2Seg ; 4bit. cislo ve W zmeni na segment pro zobrazeni
-    movwf dispR
-    call SendByte7S ; odesle W vzdy do leveho displeje (posun ostat.)
-    movf dispM,W
-    call SendByte7S ; odesle W vzdy do leveho displeje (posun ostat.)
-    movf dispL,W
-    call SendByte7S ; odesle W vzdy do leveho displeje (posun ostat.)
+    ;movwf TXREG ;zapsat do odesilaciho bufferu
 
-
-    call Delay100 ; jen aby u 7seg nesvitily i nepouzite segmenty
+    ;nop ;pro jistotu
+    btfss TXSTA,1 ; ((TXSTA) and 07Fh), 1 ;ceka zde dokud se vse neodesle
+    goto $-1
 
     goto Loop
 
-Delay100: ; zpozdeni 100 ms
-    movlw 100
-Delay_ms:
-    movwf cnt2
-OutLp:
-    movlw 249
-    movwf cnt1
-    nop
-    decfsz cnt1,F
-    goto $-2
-    decfsz cnt2,F
-    goto OutLp
-    return
-
-HandleBT1:
+Answer:
+    movlw 'B'
+    call SendChar
+    movlw 'T'
+    call SendChar
+    movlw '1'
+    call SendChar
+    movlw '_'
+    call SendChar
+    movlb 0
+    btfss PORTA,4
+    movlw '0'
+    btfsc PORTA,4
+    movlw '1'
+    movlb 3
+    call SendChar
+    movlw '_'
+    call SendChar
+    movlw 'B'
+    call SendChar
+    movlw 'T'
+    call SendChar
+    movlw '2'
+    call SendChar
+    movlw '_'
+    call SendChar
+    movlb 0
+    btfss PORTA,5
+    movlw '0'
     btfsc PORTA,5
-    call HandleBT2
-    return
-HandleBT2:
-    movlw 9
-    movwf num7S ; zapsani cisla pro zobrazeni
-    call Bin2Bcd ; z num7S udela BCD cisla v dispL-dispM-dispR, zapisuje stovky, desitky a jednotky
-
-    movf dispL,W
-    call Byte2Seg ; 4bit. cislo ve W zmeni na segment pro zobrazeni
-    movwf dispL
-
-    movf dispM,W
-    call Byte2Seg ; 4bit. cislo ve W zmeni na segment pro zobrazeni
-    movwf dispM
-
-    movf dispR,W
-    call Byte2Seg ; 4bit. cislo ve W zmeni na segment pro zobrazeni
-    movwf dispR
-
-    call SendByte7S ; odesle W vzdy do leveho displeje (posun ostat.)
-    movf dispM,W
-    call SendByte7S ; odesle W vzdy do leveho displeje (posun ostat.)
-    movf dispL,W
-    call SendByte7S ; odesle W vzdy do leveho displeje (posun ostat.)
-
-    call Delay100 ; jen aby u 7seg nesvitily i nepouzite segmenty
-
+    movlw '1'
+    movlb 3
+    call SendChar
     return
 
-
+SendChar:
+    nop ;pro jistotu
+    btfss INDF1,4 ; ((PIR1) and 07Fh), 4 ;je TX buffer prazdny?
+    goto $-1
+    movwf TXREG
+    return
 
 
 # 1 "./Config_IOs.inc" 1
-Config_IOs: ;config PORTA,4 ((PORTA) and 07Fh), 4, PORTA,5 ((PORTA) and 07Fh), 5, P1 ((PORTC) and 07Fh), 2 (AN6), P2 ((PORTB) and 07Fh), 4 (AN10) and PORTC,5 -3 ((PORTC) and 07Fh), 5 ((PORTC) and 07Fh), 3 ((PORTA) and 07Fh), 2
+Config_IOs: ;config PORTA,4 ((PORTA) and 07Fh), 4, PORTA,5 ((PORTA) and 07Fh), 5, P1 ((PORTC) and 07Fh), 2 (AN6), P2 ((PORTB) and 07Fh), 4 (AN10) and LED1-3 ((PORTC) and 07Fh), 5 ((PORTC) and 07Fh), 3 ((PORTA) and 07Fh), 2
  movlb 2 ;Bank2
  clrf LATA
  clrf LATB
@@ -6601,139 +6559,5 @@ Config_IOs: ;config PORTA,4 ((PORTA) and 07Fh), 4, PORTA,5 ((PORTA) and 07Fh), 5
  movlw 00010101B
  movwf TRISC
  return
-# 184 "cv7_adc_na_7seg.s" 2
-# 1 "./Display.inc" 1
-; Display.INC
-; Podprogramy obsluhy displeje
-
-;*******************************************************
-; Signaly obsluhy displeje na EduKitBeta
-; SPI rozhrani k posuvnym registrum budicim LED segmenty
-
-
-
-;*******************************************************
-
-; Registry nadefinovat v .asm, jmena a poradi nutno dodrzet: num7S, disp(L/M/R)
-
-;***********************************************************
-; Konfigurace SPI pro komunikaci se 7seg
-Config_SPI:
- movlb 4 ;Bank4
- clrf SSP1STAT
- movlw 00110000B ;high idle state, Fosc/4, SPI ON
- movwf SSP1CON1
-
- clrw
- movlb 0 ;Bank0
- bcf PORTC,6 ; signal chip-select obvodu 4094 ;!CS -> low
- movlb 4 ;Bank4
- movwf SSP1BUF
- btfss SSP1STAT,0 ;ceka do vyprazdneni bufferu
- goto $-1
- movf SSP1BUF,W ;prazdne cteni HLAVNE NEZAPISOVAT ZPATKY DO F!
- clrw
- movwf SSP1BUF
- btfss SSP1STAT,0 ;ceka do vyprazdneni bufferu
- goto $-1
- movf SSP1BUF,W ;prazdne cteni HLAVNE NEZAPISOVAT ZPATKY DO F!
- clrw
- movwf SSP1BUF
- btfss SSP1STAT,0 ;ceka do vyprazdneni bufferu
- goto $-1
- movf SSP1BUF,W ;prazdne cteni HLAVNE NEZAPISOVAT ZPATKY DO F!
- clrw
- movlb 0
- bsf PORTC,6 ; signal chip-select obvodu 4094 ;!CS -> high
-
- return
-
-
-;***********************************************************************
-; Prevod binarniho cisla (16 bitu hval:lval) na BCD (4 digity hbcd:lbcd)
-Bin2Bcd:
- clrf dispR
- clrf dispM
- clrf dispL
-
- lslf num7S,F ;nejvyssi bit
- rlf dispR,F
-
- lslf num7S,F ;2. nejvyssi bit
- rlf dispR,F
-
- lslf num7S,F ;3. nejvyssi
- rlf dispR,F
-
- movlw 5 ;zbylych 5 bitu v loopu
- movwf dispM ;slouzi jako pocitadlo
-
-ShLoop: movf dispR,W ;test spodniho nibble
- addlw 0x03
- btfsc WREG,3 ;je po pricteni 3 vetsi/roven 8 (puvodne >= 5)
- movwf dispR ;ano prepsat prictenym
- movf dispR,W ;test horniho nibble
- addlw 0x30
- btfsc WREG,7 ;je po pricteni 3 vetsi/roven 8 (puvodne >= 5)
- movwf dispR ;ano prepsat prictenym
-
- lslf num7S,F ;postupne posuny pres C
- rlf dispR,F
- rlf dispL,F
-
- decfsz dispM,F ;odecist pocet posunuti
- goto ShLoop
-
- movf dispR,W ;rozdelit nibbles do dvou bytu
- movwf dispM
- swapf dispM,F
- movlw 0x0F
- andwf dispR,F ;pro jistotu vymaskovat nepouzite nibbles
- andwf dispM,F
-
- return
-
-
-;***********************************************************
-; Tabulka prevodu 4-bitoveho kodu (hexa) na 7-segmentovy kod
-; Desetinna tecka se dodatecne koduje do 0. bitu (napr. inkrementaci)
-Byte2Seg:
- andlw 0x0F ; omezeni na 4 nizsi bity (hexa kod)
- brw ; pricte w k citaci instrukci
- retlw 11111100B ; zobrazi 0
- retlw 01100000B ; zobrazi 1
- retlw 11011010B ; zobrazi 2
- retlw 11110010B ; zobrazi 3
- retlw 01100110B ; zobrazi 4
- retlw 10110110B ; zobrazi 5
- retlw 10111110B ; zobrazi 6
- retlw 11100000B ; zobrazi 7
- retlw 11111110B ; zobrazi 8
- retlw 11110110B ; zobrazi 9
- retlw 11101110B ; zobrazi 'A'
- retlw 00111110B ; zobrazi 'b'
- retlw 10011100B ; zobrazi 'C'
- retlw 01111010B ; zobrazi 'd'
- retlw 10011110B ; zobrazi 'E'
- retlw 10001110B ; zobrazi 'F'
-; retlw 00000010B ; zobrazi '-'
-
-
-
-;*******************************************************************************
-; Seriovy prenos W do leveho displeje, aktualne zobrazene se posunou doprava
-SendByte7S:
- movlb 0 ;Bank0
- bcf PORTC,6 ; signal chip-select obvodu 4094 ;!CS -> low
- movlb 4 ;Bank4
- movwf SSP1BUF
- btfss SSP1STAT,0 ;ceka do vyprazdneni bufferu
- goto $-1
- movf SSP1BUF,W ;prazdne cteni HLAVNE NEZAPISOVAT ZPATKY DO F!
- clrw
- movlb 0
- bsf PORTC,6 ; signal chip-select obvodu 4094 ;!CS -> high
- return
-# 185 "cv7_adc_na_7seg.s" 2
-
-END
+# 142 "cv8_seriova_linka.s" 2
+ END

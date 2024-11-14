@@ -6,7 +6,7 @@ Linker command line:
   --edf=C:\Program Files\Microchip\xc8\v2.50\pic\dat\20240725155939_en.msgs \
   -cs -h+dist/default/debug\delay.X.debug.sym \
   --cmf=dist/default/debug\delay.X.debug.cmf -z -Q16F1508 \
-  -oC:\Users\arbys\AppData\Local\Temp\xcAscj8.\driver_tmp_3.o \
+  -oC:\Users\arbys\AppData\Local\Temp\xcAsfds.\driver_tmp_3.o \
   --fixupoverflow=error -ver=XC8 PIC(R) Assembler --fixupoverflow=lstwarn \
   -Mdist/default/debug/delay.X.debug.map -E1 --acfsm=1493 \
   -ACODE=00h-07FFhx2 -ASTRCODE=00h-0FFFh -ASTRING=00h-0FFhx16 \
@@ -26,7 +26,7 @@ Linker command line:
   -ASFR29=0E80h-0EEFh -ASFR30=0F00h-0F6Fh -ASFR31=0F80h-0FEFh \
   -ACONFIG=08007h-08008h -DCONFIG=2 -AIDLOC=08000h-08003h -DIDLOC=2 \
   -DCODE=2 -DSTRCODE=2 -DSTRING=2 -DCONST=2 -DENTRY=2 \
-  build/default/debug/cv7_adc_na_7seg.o 
+  build/default/debug/cv8_seriova_linka.o 
 
 Object code version is 3.11
 
@@ -35,9 +35,9 @@ Machine type is 16F1508
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-build/default/debug/cv7_adc_na_7seg.o
+build/default/debug/cv8_seriova_linka.o
                 config                             8007     8007        2        0       4
-                PROGMEM0                              0        0       C9        0       0
+                PROGMEM0                              0        0       5C        0       0
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
@@ -134,7 +134,7 @@ TOTAL           Name                               Link     Load   Length     Sp
         CLASS   IDLOC          
 
         CLASS   UNCLASSED
-                PROGMEM0                              0        0       C9         0
+                PROGMEM0                              0        0       5C         0
 
 
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class     Delta
@@ -148,10 +148,10 @@ UNUSED ADDRESS RANGES
         BANK1            000A0-000EF              50           1
         BANK2            00120-0016F              50           1
         BIGRAM           02000-020EF              F0           1
-        CODE             000C9-00FFF             737           2
+        CODE             0005C-00FFF             7A4           2
         COMMON           00070-0007F              10           1
-        CONST            000C9-00FFF             100           2
-        ENTRY            000C9-00FFF             100           2
+        CONST            0005C-00FFF             100           2
+        ENTRY            0005C-00FFF             100           2
         IDLOC            08000-08003               4           2
         RAM              00020-0006F              50           1
                          000A0-000EF              50
@@ -166,6 +166,7 @@ UNUSED ADDRESS RANGES
         SFR17            00880-008EF              70           1
         SFR18            00900-0096F              70           1
         SFR19            00980-009EF              70           1
+        SFR2             00100-0011F              20           1
         SFR20            00A00-00A6F              70           1
         SFR21            00A80-00AEF              70           1
         SFR22            00B00-00B6F              70           1
@@ -176,7 +177,7 @@ UNUSED ADDRESS RANGES
         SFR27            00D80-00DEF              70           1
         SFR28            00E00-00E6F              70           1
         SFR29            00E80-00EEF              70           1
-        SFR3             00192-001EF              5E           1
+        SFR3             00180-001EF              70           1
         SFR30            00F00-00F6F              70           1
         SFR31            00F80-00FEF              70           1
         SFR4             00200-0026F              70           1
@@ -185,14 +186,14 @@ UNUSED ADDRESS RANGES
         SFR7             00380-003EF              70           1
         SFR8             00400-0046F              70           1
         SFR9             00480-004EF              70           1
-        STRCODE          000C9-00FFF             F37           2
-        STRING           000C9-00FFF             100           2
+        STRCODE          0005C-00FFF             FA4           2
+        STRING           0005C-00FFF             100           2
 
                                   Symbol Table
 
-__HPROGMEM0     PROGMEM0     000C9  __H__absolute__ __absolute__ 00000
+__HPROGMEM0     PROGMEM0     0005C  __H__absolute__ __absolute__ 00000
 __Hcode         code         00000  __Hconfig       config       08009
-__Hdata         data         00000  __Hspace_0      (abs)        000C9
+__Hdata         data         00000  __Hspace_0      (abs)        0005C
 __Hspace_1      (abs)        00000  __Hspace_4      (abs)        10010
 __Hudata        udata        00000  __Hudata_bank0  udata_bank0  00000
 __Hudata_bank1  udata_bank1  00000  __Hudata_bank2  udata_bank2  00000

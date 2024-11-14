@@ -42,7 +42,7 @@ Start:
     movlw	01101000B	;4MHz Medium
     movwf	OSCCON		;nastaveni hodin
 
-    movlw	00010010B	;cca 256 ms WDT
+    movlw	00010010B	;cca 512 ms WDT
     movwf	WDTCON
 
     call	Config_IOs
