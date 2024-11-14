@@ -1,6 +1,10 @@
 ;zobrazi hodnotu z ADC (potenciometr 1) na 7seg
 PROCESSOR 16F1508 
  
+#define BT1	PORTA,4
+#define BT2	PORTA,5
+#define	LED1	PORTC,5
+    
 ; window -> TMW -> conf. bits -> ctl c ctr v
 ; CONFIG1
 CONFIG  FOSC = INTOSC         ; Oscillator Selection Bits (INTOSC oscillator: I/O function on CLKIN pin)
@@ -41,7 +45,29 @@ RESETVEC:
     GOTO	Start
 
     ORG		0x04
-    nop
+    movlb	7		; Banka7 s IOC
+    btfss	IOCAF,4		; preruseni od BT1(RA4)?
+    goto	BT2Int		; je to tedy od BT2...
+    
+    movlb	1		; Banka1 s ADC
+    movlw	00011001B	; P1 = AN6
+    movwf	ADCON0
+    
+    movlb	7		; Banka7 s IOC
+    bcf		IOCAF,4		; vynulovat priznak od BT1(RA4)
+    ;movlb	0		; Banka0 s PORT
+    ;bsf		LED1
+    retfie
+	
+BT2Int:
+    movlb	1		; Banka1 s ADC
+    movlw	00101001B	; P1 = AN10
+    movwf	ADCON0
+    
+    movlb	7		; Banka7 s IOC
+    bcf		IOCAF,5		; vynulovat priznak od BT2(RA5)
+    ;movlb	0		; Banka0 s PORT
+    ;bcf		LED1
     retfie
 	
 Start:
@@ -52,6 +78,15 @@ Start:
     call	Config_IOs
     call	Config_SPI
 
+    ;nastaveni preruseni
+    movlb	7		; Banka7 s IOC
+    bsf		IOCAP,4		; BT1(RA4) nastavena detekce pozitivni hrany
+    bsf		IOCAN,5		; BT2(RA5) nastavena detekce negativni hrany
+    clrf	IOCAF		; smazat priznak doted detekovanych hran
+
+    bsf		INTCON,3	; IOCIE	;povolit preruseni od IOC
+    bsf		INTCON,7	; GIE	;povolit preruseni jako takove
+    
     ;config ADC
     movlb	1		; Banka1 s ADC
     movlw	00011000B	; P1 = AN6
@@ -62,6 +97,11 @@ Start:
     bsf		ADCON0,0	; ADON ;zapnout ADC
     
 Loop:
+    btfsc   BT1
+    call    HandleBT1
+    btfsc   BT1
+    goto    Loop
+    
     movlb	1		; Banka1 s ADC
     bsf		ADCON0,1	; GO ; start A/D prevodu
     btfsc	ADCON0,1	; GO ; A/D prevod skoncen?
@@ -107,6 +147,38 @@ OutLp:
     goto	OutLp
     return	
 
+HandleBT1:
+    btfsc   BT2
+    call    HandleBT2
+    return
+HandleBT2: 
+    movlw   9
+    movwf   num7S	    ; zapsani cisla pro zobrazeni
+    call    Bin2Bcd	    ; z num7S udela BCD cisla v dispL-dispM-dispR, zapisuje stovky, desitky a jednotky
+
+    movf    dispL,W
+    call    Byte2Seg	    ; 4bit. cislo ve W zmeni na segment pro zobrazeni
+    movwf   dispL
+
+    movf    dispM,W
+    call    Byte2Seg	    ; 4bit. cislo ve W zmeni na segment pro zobrazeni
+    movwf   dispM
+
+    movf    dispR,W
+    call    Byte2Seg	    ; 4bit. cislo ve W zmeni na segment pro zobrazeni
+    movwf   dispR
+    
+    call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
+    movf    dispM,W
+    call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
+    movf    dispL,W
+    call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
+
+    call	Delay100	; jen aby u 7seg nesvitily i nepouzite segmenty
+    
+    return
+    
+    
 	
 #include	"Config_IOs.inc"
 #include	"Display.inc"

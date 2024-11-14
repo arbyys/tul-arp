@@ -51,17 +51,17 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Source Files Quoted if spaced
-SOURCEFILES_QUOTED_IF_SPACED=cv7_adc_na_7seg.s
+SOURCEFILES_QUOTED_IF_SPACED=cv8_WDT_sleep.s cv8_seriova_linka.s
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/cv7_adc_na_7seg.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/cv7_adc_na_7seg.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/cv8_WDT_sleep.o ${OBJECTDIR}/cv8_seriova_linka.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/cv8_WDT_sleep.o.d ${OBJECTDIR}/cv8_seriova_linka.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/cv7_adc_na_7seg.o
+OBJECTFILES=${OBJECTDIR}/cv8_WDT_sleep.o ${OBJECTDIR}/cv8_seriova_linka.o
 
 # Source Files
-SOURCEFILES=cv7_adc_na_7seg.s
+SOURCEFILES=cv8_WDT_sleep.s cv8_seriova_linka.s
 
 
 
@@ -89,21 +89,37 @@ FINAL_IMAGE_NAME_MINUS_EXTENSION=${DISTDIR}/delay.X.${IMAGE_TYPE}
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: pic-as-assembler
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-${OBJECTDIR}/cv7_adc_na_7seg.o: cv7_adc_na_7seg.s  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/cv8_WDT_sleep.o: cv8_WDT_sleep.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/cv7_adc_na_7seg.o 
+	@${RM} ${OBJECTDIR}/cv8_WDT_sleep.o 
 	${MP_AS} -mcpu=PIC16F1508 -c \
-	-o ${OBJECTDIR}/cv7_adc_na_7seg.o \
-	cv7_adc_na_7seg.s \
+	-o ${OBJECTDIR}/cv8_WDT_sleep.o \
+	cv8_WDT_sleep.s \
+	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
+	
+${OBJECTDIR}/cv8_seriova_linka.o: cv8_seriova_linka.s  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/cv8_seriova_linka.o 
+	${MP_AS} -mcpu=PIC16F1508 -c \
+	-o ${OBJECTDIR}/cv8_seriova_linka.o \
+	cv8_seriova_linka.s \
 	 -D__DEBUG=1   -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 else
-${OBJECTDIR}/cv7_adc_na_7seg.o: cv7_adc_na_7seg.s  nbproject/Makefile-${CND_CONF}.mk 
+${OBJECTDIR}/cv8_WDT_sleep.o: cv8_WDT_sleep.s  nbproject/Makefile-${CND_CONF}.mk 
 	@${MKDIR} "${OBJECTDIR}" 
-	@${RM} ${OBJECTDIR}/cv7_adc_na_7seg.o 
+	@${RM} ${OBJECTDIR}/cv8_WDT_sleep.o 
 	${MP_AS} -mcpu=PIC16F1508 -c \
-	-o ${OBJECTDIR}/cv7_adc_na_7seg.o \
-	cv7_adc_na_7seg.s \
+	-o ${OBJECTDIR}/cv8_WDT_sleep.o \
+	cv8_WDT_sleep.s \
+	  -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
+	
+${OBJECTDIR}/cv8_seriova_linka.o: cv8_seriova_linka.s  nbproject/Makefile-${CND_CONF}.mk 
+	@${MKDIR} "${OBJECTDIR}" 
+	@${RM} ${OBJECTDIR}/cv8_seriova_linka.o 
+	${MP_AS} -mcpu=PIC16F1508 -c \
+	-o ${OBJECTDIR}/cv8_seriova_linka.o \
+	cv8_seriova_linka.s \
 	  -mdfp="${DFP_DIR}/xc8"  -msummary=+mem,-psect,-class,-hex,-file,-sha1,-sha256,-xml,-xmlfull -fmax-errors=20 -mwarn=0 -xassembler-with-cpp
 	
 endif

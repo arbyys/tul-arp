@@ -27,6 +27,8 @@
       <itemPath>cv6_display.s</itemPath>
       <itemPath>cv7_adc_na_7seg.s</itemPath>
       <itemPath>cv7_preruseni.s</itemPath>
+      <itemPath>cv8_WDT_sleep.s</itemPath>
+      <itemPath>cv8_seriova_linka.s</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -114,8 +116,22 @@
         </pic-as-linker>
       </item>
       <item path="cv6_display.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
+      </item>
+      <item path="cv7_adc_na_7seg.s" ex="true" overriding="false">
       </item>
       <item path="cv7_preruseni.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
       </item>
       <pic-as-assembler>
         <property key="fmax-errors" value="20"/>
