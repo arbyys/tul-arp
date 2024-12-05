@@ -1,4 +1,7 @@
-;Desitkovy citac (0 az 255)
+; Semestrální práce - A. Pet?í?ek
+; Naprogramujte ?asova? (minutku). Z hyperterminálu p?ijm?te ?íslo (binárn?), které bude
+; p?edstavovat po?et sekund (zobrazí se na displeji) a po spu?t?ní tla?ítkem BT1 za?ne
+; ode?ítání po 1 sekund?.
 
 PROCESSOR 16F1508 
 
@@ -34,8 +37,10 @@ CONFIG  LVP = ON              ; Low-Voltage Programming Enable (Low-voltage prog
 cnt1	EQU 0x70
 cnt2	EQU 0x71   
 cnt3	EQU 0x72
-sec	EQU 0x73    ; citac 1 sekundy
+cntMin	EQU 0x78    ; citac
+cntSec	EQU 0x79    ; citac
 num7S   EQU 0x74    ; cislo pro zobrazeni, dalsi 3B budou displeje!
+dispLSec	EQU 0x80    ; levy 7seg
 dispL	EQU 0x75    ; levy 7seg
 dispM	EQU 0x76    ; prostredni 7seg
 dispR	EQU 0x77    ; pravy 7seg
@@ -66,8 +71,12 @@ Start:
 	
 	
 Main:	
-    clrf    sec		    ; vynulovani registru sec
-
+    clrf    cntMin		    ; vynulovani registru sec
+    clrf    cntSec		    ; vynulovani registru sec
+    movlw   00111011B
+    movwf   cntSec
+    movlw   00000010B
+    movwf   cntMin
     goto    Scan
 Scan:
     btfss   BT1
@@ -84,9 +93,11 @@ Read:
     goto    Read
 	
 Inc:	
-    incf    sec,F
+    decf    cntSec,F 
+    btfsc   STATUS, 2
+    call    Gaga
     
-    movf    sec,W 
+    movf    cntSec,W 
     movwf   num7S	    ; zapsani cisla pro zobrazeni
     call    Bin2Bcd	    ; z num7S udela BCD cisla v dispL-dispM-dispR, zapisuje stovky, desitky a jednotky
 
@@ -105,12 +116,33 @@ Inc:
     call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
     movf    dispM,W
     call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
-    movf    dispL,W
-    call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
+    
+    ;movf    dispL,W
+    ;call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
+    
+    ; todo:
+    
+    movf    cntMin,W 
+    movwf   num7S	    ; zapsani cisla pro zobrazeni
+    call    Bin2Bcd	    ; z num7S udela BCD cisla v dispL-dispM-dispR, zapisuje stovky, desitky a jednotky
 
+    movf    dispR,W
+    call    Byte2Seg	    ; 4bit. cislo ve W zmeni na segment pro zobrazeni
+    movwf   dispLSec
+    
+    movf    dispLSec,W
+    call    SendByte7S	    ; odesle W vzdy do leveho displeje (posun ostat.)
+    
     return
-    
-    
+
+Gaga:
+    movlw   00111011B
+    movwf   cntSec
+    decf    cntMin, F
+    btfsc   STATUS, 2
+    goto    Start
+    return
+
 Delay100:		    ; zpozdeni 100 ms
     movlw   100
 Delay_ms:

@@ -29,6 +29,9 @@
       <itemPath>cv7_preruseni.s</itemPath>
       <itemPath>cv8_WDT_sleep.s</itemPath>
       <itemPath>cv8_seriova_linka.s</itemPath>
+      <itemPath>cv9_casovac.s</itemPath>
+      <itemPath>cv9_pwm.s</itemPath>
+      <itemPath>semestralka.s</itemPath>
     </logicalFolder>
   </logicalFolder>
   <sourceRootList>
@@ -124,6 +127,12 @@
         </pic-as-linker>
       </item>
       <item path="cv7_adc_na_7seg.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
       </item>
       <item path="cv7_preruseni.s" ex="true" overriding="false">
         <pic-as-assembler>
@@ -134,6 +143,30 @@
         </pic-as-linker>
       </item>
       <item path="cv8_WDT_sleep.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
+      </item>
+      <item path="cv8_seriova_linka.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
+      </item>
+      <item path="cv9_casovac.s" ex="true" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
+      </item>
+      <item path="cv9_pwm.s" ex="true" overriding="false">
       </item>
       <pic-as-assembler>
         <property key="fmax-errors" value="20"/>
@@ -178,6 +211,14 @@
         <property key="linker-rom" value=""/>
         <property key="linker-serial" value=""/>
       </pic-as-linker>
+      <item path="semestralka.s" ex="false" overriding="false">
+        <pic-as-assembler>
+        </pic-as-assembler>
+        <pic-as-global>
+        </pic-as-global>
+        <pic-as-linker>
+        </pic-as-linker>
+      </item>
     </conf>
   </confs>
 </configurationDescriptor>
