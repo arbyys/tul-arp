@@ -1,7 +1,32 @@
-; Semestr�ln� pr�ce - A. Pet?�?ek
-; Naprogramujte ?asova? (minutku). Z hypertermin�lu p?ijm?te ?�slo (bin�rn?), kter� bude
-; p?edstavovat po?et sekund (zobraz� se na displeji) a po spu?t?n� tla?�tkem BT1 za?ne
-; ode?�t�n� po 1 sekund?.
+; Semestr�ln� pr�ce - A. Pet?�?ek
+; Naprogramujte ?asova? (minutku). Z hypertermin�lu p?ijm?te ?�slo (bin�rn?), kter� bude
+; p?edstavovat po?et sekund (zobraz� se na displeji) a po spu?t?n� tla?�tkem BT1 za?ne
+; ode?�t�n� po 1 sekund?.
+
+; vlastní příznaky (bool proměnné):
+; minSet = false
+; 
+; algoritmus:
+; při kliknutí na BT1 inkrementovat cntMin (kliknutí na BT1 funguje jen pokud minSet je false)
+; otestovat zda minuty nepřesáhly 9, příp. vyresetovat na 1:
+;   movlw 0x0A
+;   subwf cntMin, W 
+;   btfsc STATUS, Z
+;   goto --reset-podprogram-- (Gaga)
+; při kliknutí na BT2 nastavit minSet na true (kliknutí na BT2 funguje jen pokud minSet je false)
+; spustit časovač na 60 sek
+; když doběhne, odečíst 1 od cntMin
+; pokud cntMin je nula, nastavit minSet na true, všechno resetovat na výchozí hodnoty, zapsat na displej jen jedničku
+; nastavit časovač zpět na 60sek
+
+; https://chatgpt.com/c/6759dbc4-eae4-8006-bbb5-c2b432ccb188
+; podprogram na přepsání hodnot na displeji:
+;   (vnitřně pracuje s minSet):
+;     pokud false:
+;       minuty převést a vzít z nich jen jednotky které zobrazit vlevo
+;     pokud true:
+;      
+
 
 PROCESSOR 16F1508 
 
@@ -83,7 +108,7 @@ Scan:
     goto    Scan
     call    Inc
     call    Read
-    goto    Scan	    ; skok na opakov�n� testu
+    goto    Scan	    ; skok na opakov�n� testu
 
 Read:
     movlw   100
