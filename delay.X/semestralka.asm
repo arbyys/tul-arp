@@ -25,7 +25,8 @@
 ;     pokud false:
 ;       minuty převést a vzít z nich jen jednotky které zobrazit vlevo
 ;     pokud true:
-;      
+;       minuty převést, vzít z nich jen jednotky/desítky které zobrazit vlevo (vždy dvě číslice, pokud < 10, tak prostřední padnout prázdným znkem)
+;       sekundy převést a vzít z nich jen jednotky které zobrazit vlevo
 
 
 PROCESSOR 16F1508 
