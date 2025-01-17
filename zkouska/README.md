@@ -1,0 +1,228 @@
+# Teoretická část - poznatky
+- **výkonnost systému** $P_t$
+	- $P_t = \frac{1}{T}; \quad T=\text{doba provedení jednoho úkonu}\quad [MIPS]$
+- **propustnost systému** $P_r$
+	- $P_t = \frac{n}{t}; \quad \text{počet úkonů n za čas t}\quad [MIPS]$
+- **doba provádění programu** $T_{CPU}$
+	- $T_{CPU} = IC * CPI * T_{CLK} \quad \text{IC = instruction count; CPI = cycles per instruction; Tclk = perioda hod. signálu}$
+- **zrychlení systému** $S_{OVERALL}$
+	- $S_{OVERALL} = \frac{T_{OLD}}{T_{NEW}} \quad \text{Told/new = výkonnost bez/s vylepšení/m}$
+___
+
+# Písemná část - možné otázky
+
+## 1. – char. vlastnosti
+- **Uveďte char. vlastnosti von Neumanovy architektury počítačů**
+	- struktura počítače nezávislá na typu úlohy
+	- společná paměť pro program (instrukce) + data (operandy)
+		- paměť rozdělená do buněk stejné velikosti
+	- program tvořen posloupností instrukcí (s daným pořadím)
+		- změna pořadí pomocí (ne)podmíněného skoku
+	- dvojková soustava pro reprezentaci čísel
+	- tok dat v programu řídí řadič
+	- – porovnání
+		- jednodušší návrh, horší paralelizace, procesor řeká na dokončení I/O operací (sdílená sběrnice)
+- (2024) Uveďte char. vlastnosti Harvardské architektury počítačů
+	- oddělená paměť programu a dat
+	- oddělená sběrnice
+	- řízení procesoru odděleno od řízení IO jednotek
+	- – porovnání
+		- dražší a složitější implementace, vyšší bezpečnost, možnost paralelizace 
+- **Uveďte char. vlastnosti procesurů typu CISC**
+	- Complex Instruction Set Computer
+	- dříve byly RAM pomalejší než CPU
+		- aby se zabránilo bottlenecku, byla snaha rozšiřovat instrukční soubor aby se tolik instrukcí nemuselo načítat z RAM
+		- výsledkem je hodně složitých instrukcí, které se využijí zřídkakdy
+	- proměnná délka instrukcí, hodně adresovacích módů
+	- paměť s mikroprogramy (ROM)
+	- zpracování instrukcí ve více stroj. cyklech (CPI ~ 5 – 10)
+	- pro překlad programu jednodušší překladač
+- **Uveďte char. vlastnosti procesurů typu RISC**
+	- Reduced Instruction Set Computer
+	- snaha o přesun některých méně používaných instrukcí do programu (snížení CPI)
+	- relativně malý počet jednoduchých instrukcí, malý počet adresovacích módů
+	- místo mikroprogramování je tam řadič s pevnou logikou (rychlé)
+	- víceúčelové registry = jednodušší překladače
+	- proudové zprac. instrukcí (CPI < 1.5)
+	- nejčastěji se vážou k Harvardské arch.
+- **Uveďte char. vlastnosti procesurů typu post-RISC**
+	- většina současných CPU
+	- kombinace RISC a CISC (navenek CISC, vnitřně RISC)
+	- různě dlouhá doba trvání instrukcí, rozklad na jednoduché mikroinstrukce
+	- proudové zpracování, paralelizace
+	- spekulativní provádění instrukcí
+- **Jaký je rozdíl mezi subskalárními, sklárními a superskalárními procesory?**
+	- rozdělení vývoje procesorů do tří částí
+	- subskalární (sekvenční):
+		- tradiční, synchronní
+	- skalární:
+		- synchronní zpracování nahrazeno paralelním
+		- vykonávání instrukcí může probíhat skrytě
+		- IPC (Instruction Per Cycle) = 1
+	- superskalární:
+		- paralelní vydávání i zpracování instrukcí
+		- buď statické plánování paralelismu (např. VLIW) nebo dynamické za běhu (složitější)
+		- IPC > 1
+- **Uveďte char. vlastnosti architektury VLIW procesorů + kde se v souč. používá?**
+	- Very Long Instruction Word
+	- architektura se čtením s více přístupy, superskalární, lze dělat paralelizaci na úrovni instrukcí
+	- delší instrukce které mají dílčí části
+	- o paralelizaci rozhoduje překladač (HW nekontroluje hazardy)
+	- větší náročnost na program. paměť
+	- použití: GPU, DSP (Digital Signal Processors)
+
+## 2. – vylepšení procesoru – (příklad)
+- **Předpokládejme vylepšení procesoru pro databázové výpočty. Nový procesor je 5x rychlejší než nynější. Dále víme, že nyní je procesor zaměstnán z 65% výpočty a 35% času čeká na vstupně – výstupní operace. Jaké bude celkové zrychlení po plánovaném vylepšení?**
+	- $F_E = 0.65; \quad \text{...část, kterou lze zlepšit (výpočty)}$
+	- $S_E = 5; \quad \text{...kolikrát se zrychlí výpočet}$
+	- $S_{OVERALL} = \frac{1}{(1 - F_E) + \frac{F_E}{S_E}}$
+	- $S_{OVERALL} = \frac{1}{(1 - 0.65) + \frac{0.65}{5}}$
+	- $= 2.08x$
+- (2024) Počítač zpracovává program s 40mil dvoutaktovými instrukcemi. Kmitočet hodin. taktů procesoru je 2 GHz. Jaká je výkonnost procesoru v MIPS?
+	- todo
+- Počítač zpracovává program, který má 5 milionů 1-CPI (jednotaktových instrukcí), 1 milion 2-CPI a 1 milion 3-CPI. Kmitočet hodinových taktů je 100 MHz. Jaká je jeho výkonnost v MIPS?
+	- todo
+- **Mikrořadič pracuje s frekvencí 4 MHz. K provedení jednoho instrukčního cyklu vyžaduje 4 hodinové takty. Program má 90% jednocyklových a 10% dvoucyklových instrukcí. Jaký je výkon mikrořadiče v MIPS?**
+	- todo
+- **Výpočetní úloha je rozdělena na 3 části, z nichž každá trvá daný čas (P1 = 20%, P2 = 30% a P3 = 50%). Jaké je celkové zrychlení, jestliže část P1 zrychlíme 5x, část P2 nezrychlíme a část P3 zrychlíme 10x?**
+	- $S_{OVERALL} = \frac{T_{OLD}}{T_{NEW}}$
+	- $= \frac{1}{\frac{0.2}{5} + \frac{0.3}{1} + \frac{0.5}{10}}$
+	- $= 2.56x$
+- **Vypočítejte průměrnou dobu přístupu do paměti (systém složený z cache a operační paměti), je-li vybavovací doba cache 12 ns, čas získání dat z operační paměti 160 ns a pravděpodobnost neúspěchu je 10%.**
+	- $t = cache * úspěch + ram * neúspěch$
+		- pokud se to nepovede z cache, čte se z RAM
+	- $t = 12 * (1 - 0.1) + 160 * 0.1$
+	- $t = 12ns$
+- **(!) Máme 5 stupňovou zřetězenou linku. Jaké bude zrychlení linky, když 20% instrukcí bude mít 4 ztrátové (čekací) cykly, 15% instrukcí bude mít 1 ztrátový cyklus a zbývající počet instrukcí bude bez ztrátových cyklů?**
+	- todo
+- **(!) Jaká je dosažitelná účinnost zřetězené 4stupňové linky při zpracování 5 instrukcí? Spočtěte dále průměrnou hodnotu CPI. (obrázek, `2010_19_1``, `2019_11_1`)**
+	- todo
+
+## 3. – simulace registrů – (příklad)
+- Uveďte nový stav registrů mikrořadiče rodiny PIC16 po provedení dané posloupnosti čtyř instrukcí:
+- | (2024) Adresa   |      Hodnota      |  Instrukce |
+|----------|:-------------:|------:|
+| 0x09 (WREG) | 0xCC | `MOVLW  .113` |
+| 0x04 (FSR0L) | 0xCC | `MOVWF  0x04` |
+| 0x70 | 0xCC | `BTFSS  0x70,4` |
+| 0x71 | 0xCC | `DECF  0x71,W` |
+- | Adresa (DEC)   |      Hodnota (HEX)      |  Instrukce |
+|----------|:-------------:|------:|
+| 0x09 (WREG) | 0xAB | `MOVLW  .113` |
+| 0x04 (FSR0L) | 0xCD | `MOVWF  0x04` |
+| 0x70 | 0xEF | `BTFSC  0x70,4` |
+| 0x71 | 0x64 | `DECF  0x71,W` |
+- | Adresa (DEC)   |      Hodnota (HEX)      |  Instrukce |
+|----------|:-------------:|------:|
+| 0x09 (WREG) | 0xAA | `ADDWF  0x71,F` |
+| 0x04 (FSR0L) | 0xAA | `RRF  0x71,W` |
+| 0x70 | 0xAA | `BCF  0x70,1` |
+| 0x71 | 0xAA | `XORWF  0x71,W` |
+- | Adresa (DEC)   |      Hodnota (HEX)      |  Instrukce |
+|----------|:-------------:|------:|
+| W | F2 | `ANDLW  F4h` |
+| 04 (FSR) | 00 | `MOVF  14,1` |
+| 14 | FF | `INCF  14,1` |
+| 15 | 00 | `BCF  14,7` |
+- | Adresa (DEC)   |      Hodnota (HEX)      |  Instrukce |
+|----------|:-------------:|------:|
+| W | AA | `ADDWF  15,1` |
+| 04 (FSR) | 20 | `BTFSC  14,6` |
+| 14 | A0 | `INCF  15,1` |
+| 15 | FF | `MOVLW  15` |
+- | Adresa (DEC)   |      Hodnota (HEX)      |  Instrukce |
+|----------|:-------------:|------:|
+| W | F3 | `ANDLW  F4h` |
+| 04 (FSR) | 14 | `MOVF  14,1` |
+| 14 | FF | `INCF  14,1` |
+| 15 | 00 | `BSF  14,7` |
+- | Adresa (DEC)   |      Hodnota (HEX)      |  Instrukce |
+|----------|:-------------:|------:|
+| W | BB | `ADDWF  15,1` |
+| 04 (FSR) | DD | `BTFSC  14,6` |
+| 14 | AA | `INCF  4,1` |
+| 15 | CC | `MOVLW  15` |
+- | Adresa (DEC)   |      Hodnota (HEX)      |  Instrukce |
+|----------|:-------------:|------:|
+| W | F5 | `MOVLW  14` |
+| 04 (FSR) | 10 | `MOVWF  4` |
+| 14 | BB | `DECF  14,1` |
+| 15 | 0F | `BSF  14,1` |
+
+## 4. – převody – (příklad)
+
+- **Jak bude reprezentováno číslo (-12)\_D v pětimístné celočíselné číslicové formě: a) v doplňkovém kódu, b) v aditivním lichém kódu**
+<details>
+  <summary>Řešení</summary>
+  
+  a) 10100, b) 00011
+</details>
+
+- **Jak bude reprezentováno číslo (-11)\_D v šestimístné celočíselné číslicové formě: a) v doplňkovém kódu, b) v aditivním lichém kódu**
+<details>
+  <summary>Řešení</summary>
+  
+  a) 110101, b) 010101
+</details>
+
+- **Jak bude reprezentováno číslo (-13)\_D v šestimístné celočíselné číslicové formě: a) v doplňkovém kódu, b) v aditivním lichém kódu**
+<details>
+  <summary>Řešení</summary>
+  
+  a) 110011, b) 010011
+</details>
+
+- **Číslo zapsané v aditivním sudém kódu má tvar `0110010`. O jaké číslo v desítkové soustavě se jedná? Jak bude vypadat zápis stejného čísla v přímém kódu se znaménkem (zapsaný pomocí stejného počtu bitů)?**
+<details>
+  <summary>Řešení</summary>
+  
+  1001110, je to číslo 14
+</details>
+
+- **Číslo zapsané v aditivním sudém kódu má tvar `1010101`. O jaké číslo v desítkové soustavě se jedná? Jak bude vypadat zápis stejného čísla v přímém kódu se znaménkem (zapsaný pomocí stejného počtu bitů)?**
+<details>
+  <summary>Řešení</summary>
+  
+  0010100, je to číslo 20
+</details>
+
+- **(!) Číslo zapsané v 32-bitovém formátu reálného čísla podle IEEE 754 má tvar (big endian): `(C2 81 00 00)_H`. O jaké číslo se jedná (zapsané v desítkové soustavě)?**
+<details>
+  <summary>Řešení</summary>
+  
+  ???
+</details>
+
+## 5. – teorie
+- (2024) V čem se liší architektura signálového procesoru vůči běžnému procesoru?
+- **(!) Co víte o architektuře procesorů ISA s univerz. registry? Architekturu charakterizujte, uveďte výhody/nevýhody.**
+- **Popište výhodu technologie zpracování instrukcí mimo pořadí (out-of-order) a kde se používá.**
+- **Popište výhodu technologie spekulativního zpracování instrukcí (speculative execution) a kde se používá.**
+- (2024) Co víte o technologii Turbo Boost? K čemu slouží a kde se používá?
+- (2024) Na jakých principech je založena funkce řadiče procesoru? Uveďte výhody/nevýhody jednotlivých koncepcí.
+- **(!) Na jakých principech jsou založeny technologie SSD disků? Uveďte výhody/nevýhody.**
+- **Na jakých principech je založena funkce řadiče? Uveďte výhody/nevýhody.**
+- (2024) Paralelní víceprocesorové systémy se dělí na volně a těsně vázané. Uveďte, v čem je princip. rozdíl. Za jakých podmínek je výhodnější použití těsně vázaných systémů?
+- **(!) Jaké jsou principiální možnosti řešení priorit při více zdrojích přerušení?**
+- (2024) Co více o sběrnici SPI? Naznačte princip a oblast použití.
+- **Co víte o sběrnici I^2C? Naznačte princip a oblast použití.**
+- **Co víte o sběrnici PCI Express? Naznačte princip a oblast použití.**
+- **Co víte o sběrnici USB? Naznačte princip a oblast použití.**
+- **(!) Co víte o sběrnici SAS? Naznačte princip a oblast použití.**
+- **(!) K čemu slouží impedační zakončení sběrnic? Kdy je nutné jej používat? Uveďte 1 příklad konkrétního impedačního zakončení sběrnice.**
+- **Charakterizujte symbolická pole. Kde se používají?**
+- **Co je cache, k čemu slouží, jaké znáte typy?**
+- **Co je to DMA? Naznačte princip činnosti.**
+- **Co jsou to clustery, jaké znáte typy?**
+- **Jaké znáte hlavní módy adresování? Nazačte principy.**
+- **K čemu slouží ALU, z jakých částí se skládá, čím se liší ALU běžných signálových CPU vs ALU běžných CPU?**
+- **Co víte o technologii HT (Hyper-threading) u Intel Pentium 4?**
+
+## Nezařazeno / nevypracováno
+- Napište výkonnostní rovnici procesoru bez cache a s cache, popište veličiny.
+- Na obrázku jsou znázorněny dva principy zpracování instrukcí v procesoru. Obě architektury pojmenujte a naznačte oblast použití (obrázek, `2016_1_2`)
+- V čem se liší plně asociativní cache od n-cestně asociativní cache?
+- Co více o sběrnici HyperTransport (princip, technologie, topologie, kde se používá)?
+- Jaké jsou hlavní části (funkční bloky) grafických procesorů? Popište účel každého bloku.
+- Jaké znáte typy neadresovatelných pamětí? Charakterizujte stručně typy.
+- Co je architektura souboru instrukcí, co určuje, jaké znáte typy?
