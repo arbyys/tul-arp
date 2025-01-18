@@ -15,6 +15,10 @@
 		- lichý = $X +X^{n-1}-1$
 		- sudý = $X +X^{n-1}$
 		- kde $n = \text{počet bitů vstupu}$
+	- **přímý kód**
+		- absolutní hodnota čísla, MSB je znaménkový bit
+		- `MSB = 1`: záporné číslo
+		- `MSB = 0`: kladné číslo
 - opačné vzorce (do decimální)
 	- aditivní kód
 		- lichý = odečíst ($X^{n-1}$ - 1)
