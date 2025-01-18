@@ -19,6 +19,13 @@
 		- absolutní hodnota čísla, MSB je znaménkový bit
 		- `MSB = 1`: záporné číslo
 		- `MSB = 0`: kladné číslo
+	- **IEEE 754** (reálné číslo, 32bit mód)
+		- big endian (MSB je první) / little endian (LSB je první)
+		- znaménkový bit funguje stejně jako u přímého (1 záporné, 0 kladné)
+		- nejdříve převést na binární formát, poté (od bitu nejvíce vlevo) rozdělit na části následujícím způsobem:
+			- **1bit znaménko mantisy $S$, 8bit exponent $E$, 23bit mantisa $M$**
+		- mantisa $M$ se ještě musí převést na desetinné číslo: $\overline{M} = \sum_{i=1}(M_i * 2^{-i})$
+		- DEC hodnota je poté: $X = (-1)^S * 2^{E-127} * (\overline{M})$
 - opačné vzorce (do decimální)
 	- aditivní kód
 		- lichý = odečíst ($X^{n-1}$ - 1)
@@ -310,7 +317,13 @@ ___
 <details>
   <summary>Řešení</summary>
   
-  ???
+  `C2 81 00 00` = `1100 0010 1000 0001 0000 0000 0000 0000`
+  - znaménkový bit: `1`
+  - exponent: `1000 0101` = $133$
+  - mantisa: `000 0001 0000 0000 0000 0000` = $1 + 2^{-7} = 1.0078125$
+  - $X = (-1)^1 * 2^{133-127} * 1.0078125$
+  - $X = -64.5$
+  
 </details>
 
 ## 5. – teorie
