@@ -19,6 +19,8 @@
 	- aditivní kód
 		- lichý = odečíst ($X^{n-1}$ - 1)
 		- sudý = odečíst $X^{n-1}$ 
+- z `HEX` do `BIN` (nebo obráceně)
+	- skupinky po 4 bitech
 ___
 
 # Písemná část - možné otázky
@@ -290,14 +292,14 @@ ___
 <details>
   <summary>Řešení</summary>
   
-  1001110, je to číslo 14
+  je to číslo -14, v přímém kódu `1001110`
 </details>
 
 - **Číslo zapsané v aditivním sudém kódu má tvar `1010101`. O jaké číslo v desítkové soustavě se jedná? Jak bude vypadat zápis stejného čísla v přímém kódu se znaménkem (zapsaný pomocí stejného počtu bitů)?**
 <details>
   <summary>Řešení</summary>
   
-  0010100, je to číslo 20
+  je to číslo 21, v přímém kódu `0010101`
 </details>
 
 - **(!) Číslo zapsané v 32-bitovém formátu reálného čísla podle IEEE 754 má tvar (big endian): `(C2 81 00 00)_H`. O jaké číslo se jedná (zapsané v desítkové soustavě)?**
