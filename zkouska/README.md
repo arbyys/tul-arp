@@ -50,8 +50,25 @@
 	- program tvoří posloupnost instrukcí
 		- změna pořadí pomocí (ne)podmíněného skoku
 	- tok dat řídí řadič
-	- 
-
+	- mikroinstrukce - další dělení instrukcí v CPU
+		- mikroinstrukce je uložena v ROM, její vykonání většinou trvá 1 takt
+	- ISA - Instruction Set Architecture
+		- rozhraní mezi HW a SW počítače (způsob kódování instrukcí, možné operace, datové typy, ...)
+	- instrukční cyklus = skupina všech fází nutných k uskutečnění strojové instrukce
+		- fetch -> decode -> operand fetch -> exec -> memory operation -> write
+	- pipelining (zřetězení) = CPI je více než 1
+		- vkládá dodatečné registry mezi jednotlivé části řadiče
+		- vnitřně zavádí paralelismus, venku se tváří sekvenčně
+	- čísla s plovoucí řádovou čárkou: $A = M * 2^E$ ($M$antisa, $E$xponent)
+		- IEEE 754, hodnota exponentu posouvá deset. čárku, mantisa určuje přesnost
+	- mikropočítač = realizace obvodů na jedné desce plošných spojů (mobil, server, MCU)
+	- mikrořadič = mikroprocesor s pamětí a periferiemi (typicky RISC + Harvard)
+	- paměti, cache, RAM / $\text{\{[(E)E]P\}ROM}$
+	- RS-232, u počítače COM port, dnes nahrazován USB
+		- ale stále využíván v průmyslu, sériová komunikace
+	- chipset = řídí komunikaci na základní desce, power management, typ/počet/kapacitu CPU, pamětí
+	- GPU vykreslují 3D data na 2D obraz, aplikují shadery, masivně paralelní architektura
+	- u mobilních CPU důraz ne nízkou spotřebu
 ___
 
 # Písemná část - možné otázky
@@ -354,10 +371,11 @@ ___
 	- praktické algoritmy, pro které se signálový hodí - Fourierovka, filtry (IIR, FIR)
 - **(!) Co víte o architektuře procesorů ISA s univerz. registry? Architekturu charakterizujte, uveďte výhody/nevýhody.**
 	- Instruction Set Architecture
-	- velmi rychlé univerzální registry (GPR), mohou být zdrojem dat i cílem
+	- současná nejpoužívanější architektura (x86)
+	- velmi rychlé univerzální registry (GPR), mohou být zdrojem i cílem dat
 		- rychlejší než jakákoliv paměť, proto je to výhodné (nutno méně často sahat do paměti)
-	- instrukce mají 2 až 3 operandy
-	- snadná implementace paralelismu
+		- jejich počet je 8 až 128
+	- instrukce mají 2 až 3 operandy, snadná implementace paralelismu
 	- složitý překladač, registry neumí pole (a další složité dat. strukt.)
 	- přepnutí kontextu trvá další dobu
 - **Popište výhodu technologie zpracování instrukcí mimo pořadí (out-of-order) a kde se používá.**
