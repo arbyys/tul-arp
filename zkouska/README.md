@@ -32,6 +32,20 @@
 		- sudý = odečíst $X^{n-1}$ 
 - z `HEX` do `BIN` (nebo obráceně)
 	- skupinky po 4 bitech
+- sběrnice obecně
+	- informační cesta pro přenos informací mezi funkčními bloky systému
+	- soustava vodičů, která přenáší data stejného charakteru (typicky master-slave)
+	- dělení: dvou/více bodové, dlouhé/krátké spoje, jedno/obou směrné, serial/parallel
+	- vyžadují impedanční zakončení terminátory, protože jde o dlouhé vedení
+- chipset obecně
+	- řídí komunikaci na MOBO
+		- plní funkci řadiče, RAM i cache
+	- určuje typ/počet/kapacitu: CPU, RAM, ...
+	- obsahuje rozhraní pro PATA, SATA, USB, LAN, ...
+	- definuje systémovou sběrnici mezi CPU a okolím
+	- dříve severní/jižní můstek
+		- dnes funkce severního můstku v CPU, zbytek v Controller Hub
+
 ___
 
 # Písemná část - možné otázky
@@ -141,7 +155,7 @@ ___
 	| S1 | | | | 11 | 12 | - | 14 | 14 | 15 |
 	- $CPI = \frac{9}{5} = 1.8\quad\text{[taktů na 1 instrukci]}$
 	- zrychlení $S_{K} = \frac{T_{OLD}}{T_{NEW}}$
-		- $= \frac{4*5}{9} = 2.2$
+		- $= \frac{4*5}{9} = 2.2\quad\quad\text{| kde 9 = čas po paralelizaci; 4*5 = čas při sync provedení}$
 	- účinnost $E_K = \frac{S_K}{\text{počet stupňů linky}} = \frac{2.2}{4} = 0.55$
 - další sus příklad - vypočítat `MIPS` pro jednu instrukci a pak jen vynásobit počtem instrukcí
 	- ![img2](img2.png)
@@ -329,7 +343,13 @@ ___
 - (2024) V čem se liší architektura signálového procesoru vůči běžnému procesoru?
 	- ...
 - **(!) Co víte o architektuře procesorů ISA s univerz. registry? Architekturu charakterizujte, uveďte výhody/nevýhody.**
-	- todo
+	- Instruction Set Architecture
+	- velmi rychlé univerzální registry (GPR), mohou být zdrojem dat i cílem
+		- rychlejší než jakákoliv paměť, proto je to výhodné (nutno méně často sahat do paměti)
+	- instrukce mají 2 až 3 operandy
+	- snadná implementace paralelismu
+	- složitý překladač, registry neumí pole (a další složité dat. strukt.)
+	- přepnutí kontextu trvá další dobu
 - **Popište výhodu technologie zpracování instrukcí mimo pořadí (out-of-order) a kde se používá.**
 	- todo
 - **Popište výhodu technologie spekulativního zpracování instrukcí (speculative execution) a kde se používá.**
@@ -341,22 +361,83 @@ ___
 - **(!) Na jakých principech jsou založeny technologie SSD disků? Uveďte výhody/nevýhody.**
 	- todo
 - **Na jakých principech je založena funkce řadiče? Uveďte výhody/nevýhody.**
-	- todo
+	- řídí chod CPU dle instrukcí programu
+	- obsahuje instrukční registr (uchovává OP code aktuální instrukce) + instrukční dekodér
+	- funkce:
+		- načíst další instrukci -> dekódovat ji -> vygenerovat řídící signály -> vykonat instrukci -> (opakovat)
+	- dělení:
+		- obvodový: speciální sekvenční automat na míru, rychlejší, dražší, optimalizované pro konkrétní účel
+		- mikroprogramový: obecná řídící paměť s mikroinstrukcemi, flexibilnější
+	- řadič dále obsahuje podřadiče pro přerušení, IO, periferie...
 - (2024) Paralelní víceprocesorové systémy se dělí na volně a těsně vázané. Uveďte, v čem je princip. rozdíl. Za jakých podmínek je výhodnější použití těsně vázaných systémů?
+	- ...
 - **(!) Jaké jsou principiální možnosti řešení priorit při více zdrojích přerušení?**
-	- todo
+	- programová identifikace
+		- k přerušovacímu vstupu procesoru se připojí signály externích přerušení
+		- po přijetí žádosti o přerušení se provede cyklické vyvolávání (pooling) připojených zařízení
+		- procesor postupně dotazuje všechna zařízení a určuje, které vyvolalo přerušení
+		- priorita je určena pořadím zařízení v seznamu dotazování
+		- jednoduché na implementaci, ale pomalejší reakce (může být neefektivní)
+	- sériová obvodová identifikace (daisy chaining)
+		- procesor čeká na identifikační znak, který je generován připojenými zařízeními
+		- zařízení jsou propojena sériově (v řetězu) dle priority
+		- zařízení s vyšší prioritou blokují ty s nižší (které tedy nikdy nemusí být obslouženy)
+		- rychlejší než programová identifikace, ale zase riziko, že pokud jeden článek řetězu selže, ovlivní ostatní
+	- řadič přerušení (interrupt controller)
+		- specializovaný obvod, který shromažďuje žádosti o přerušení
+		- periferie posílají žádosti o přerušení přímo do něj
+		- řadič přerušení rozhoduje o prioritě, může měnit aktálně zpracovávané přerušení když přijde nové s vyšší prio
+		- efektivní, nejrychlejší, nejdražší, složitá implementace (nároky na specializovaný HW)
 - (2024) Co více o sběrnici SPI? Naznačte princip a oblast použití.
 	- ...
 - **Co víte o sběrnici I^2C? Naznačte princip a oblast použití.**
-	- todo
+	- Inter-integrated circuit
+	- proprietární Philips, platí se za přidělení unikátní adresy zařízení
+	- multimaster sběrnice (master je ten, kdo zrovna potřebuje vysílat)
+		- zařízení detekuje, že je sběrnice zaneprázdněná a čeká na uvolnění
+	- obsahuje dva obousměrné vodiče - jeden pro data, jeden pro CLK
+	- chybí odolnost proti rušení 
+	- oblast použití: senzory, EEPROM, displeje, AD převodníky, porty
 - **Co víte o sběrnici PCI Express? Naznačte princip a oblast použití.**
-	- todo
+	- Peripheral Component Interconnect Express
+	- point-to-point sériová komunikace
+		- rozdíl oproti PCI, ta byla paralelní
+	- využívá tzv. linky (lanes), každá linka je tvořena dvojicí vodičů (jeden pro příjem, jeden pro vysílání)
+		- konfigurace x4, x16, x32... označují počet linek (víc linek = větší propustnost - a širší kontektor ofc.)
+	- linky pracují nezávisle na sobě, proto PCIe není paralelní sběrnice
+	- oblast použití: GPU, SSD, síťové/zvukové karty
 - **Co víte o sběrnici USB? Naznačte princip a oblast použití.**
-	- todo
+	- Universal Serial Bus
+	- sériový přenos dat na vzdálenost jednotek metrů
+	- host-device architektura
+	- zpětná kompatibilita, hot-swap, možnost napájení připojeného zařízení
+	- oblast použití: periferie (myš, klávesnice, tiskárny), externí disky, nabíjení telefonů
 - **(!) Co víte o sběrnici SAS? Naznačte princip a oblast použití.**
-	- todo
+	- Serial Attached SCSI
+		- nástupce paralelní SCSI 
+	- point-to-point sériová komunikace (každé zařízení komunikuje přímo s řadičem)
+	- full duplex, spolehlivější a rychlejší než SATA
+	- stromová topologie (lze připojit i SATA disky, zpětná kompatibilita)
+	- oblast použití: servery, disková pole, RAID, (hodně enterprise oblast)
+		- tam, kde se vyžaduje co nejvyšší uptime
+- **Co více o sběrnici HyperTransport (princip, technologie, topologie, kde se používá)?**
+	- AMD, vysokorychlostní propojení procesorů/chipsetů atd. v PC
+		- konkurence Intelímu FSB (Front-Side Bus)
+	- full duplex sériová komunikace, nepotřebuje sdílenou sběrnici (FSB ano)
+	- šířku pásma určuje počet linek
+	- point-to-point připojení
+	- velmi nízká latence
+	- je to podobný jako PCIe (asi)
+	- oblast použití: procesory, chipsety, GPU
 - **(!) K čemu slouží impedační zakončení sběrnic? Kdy je nutné jej používat? Uveďte 1 příklad konkrétního impedačního zakončení sběrnice.**
-	- todo
+	- funkce - minimalizace odrazů signálu
+		- odrazy způsobují rušení, chyby v datech, nestabilitu
+	- řešení - na konec sběrnice se přidá terminátor (rezistor, který impedančně odpovídá sběrnici)
+		- ten pohlcuje signál aby se neodrážel
+	- kdy je nutné jej používat?
+		- pokud máme vysoké frekvence (PCIe) nebo dlouhé vodiče
+	- příklady konkrétního zakončení:
+		- CAN (Controller Area Network)
 - **Charakterizujte symbolická pole. Kde se používají?**
 	- todo
 - **Co je cache, k čemu slouží, jaké znáte typy?**
@@ -376,7 +457,6 @@ ___
 - Napište výkonnostní rovnici procesoru bez cache a s cache, popište veličiny.
 - Na obrázku jsou znázorněny dva principy zpracování instrukcí v procesoru. Obě architektury pojmenujte a naznačte oblast použití (obrázek, `2016_1_2`)
 - V čem se liší plně asociativní cache od n-cestně asociativní cache?
-- Co více o sběrnici HyperTransport (princip, technologie, topologie, kde se používá)?
 - Jaké jsou hlavní části (funkční bloky) grafických procesorů? Popište účel každého bloku.
 - Jaké znáte typy neadresovatelných pamětí? Charakterizujte stručně typy.
 - Co je architektura souboru instrukcí, co určuje, jaké znáte typy?
