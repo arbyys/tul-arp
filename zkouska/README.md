@@ -131,19 +131,18 @@ ___
 	- todo
 - **(!) Jaká je dosažitelná účinnost zřetězené 4stupňové linky při zpracování 5 instrukcí? Spočtěte dále průměrnou hodnotu CPI. (obrázek, `2010_19_1`, `2019_11_1`)**
 
-- `x` = čekání na mezivýsledek; `-` = nevyužito
-
-| Čas | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
-|--|--|--|--|--|--|--|--|--|--|
-| S1 | 11 | 12 | 13 | 14 | x | 15 |  | | | 
-| S1 | | 11 | 12 | 13 | x | 14| 15 | | |
-| S1 | | | 11 | 12 | x | 13 | 14 | 15 | |
-| S1 | | | | 11 | 12 | - | 14 | 14 | 15 |
-
-- $CPI = \frac{9}{5} = 1.8\quad\text{[taktů na 1 instrukci]}$
-- zrychlení $S_{K} = \frac{T_{OLD}}{T_{NEW}}$
-	- $= \frac{4*5}{9} = 2.2$
-- účinnost $E_K = \frac{S_K}{\text{počet stupňů linky}} = \frac{2.2}{4} = 0.55$
+	- `x` = čekání na mezivýsledek; `-` = nevyužito
+	
+	| Čas | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+	|--|--|--|--|--|--|--|--|--|--|
+	| S1 | 11 | 12 | 13 | 14 | x | 15 |  | | | 
+	| S1 | | 11 | 12 | 13 | x | 14| 15 | | |
+	| S1 | | | 11 | 12 | x | 13 | 14 | 15 | |
+	| S1 | | | | 11 | 12 | - | 14 | 14 | 15 |
+	- $CPI = \frac{9}{5} = 1.8\quad\text{[taktů na 1 instrukci]}$
+	- zrychlení $S_{K} = \frac{T_{OLD}}{T_{NEW}}$
+		- $= \frac{4*5}{9} = 2.2$
+	- účinnost $E_K = \frac{S_K}{\text{počet stupňů linky}} = \frac{2.2}{4} = 0.55$
 - další sus příklad - vypočítat `MIPS` pro jednu instrukci a pak jen vynásobit počtem instrukcí
 	- ![img2](img2.png)
 
