@@ -106,8 +106,12 @@ ___
 	- Very Long Instruction Word
 	- architektura se čtením s více přístupy, superskalární, lze dělat paralelizaci na úrovni instrukcí
 	- delší instrukce které mají dílčí části
+	- všechny výkonné jednotky CPU umístěny vedle sebe
 	- o paralelizaci rozhoduje překladač (HW nekontroluje hazardy)
+		- překladač hlídá kolize v registrech a skládá instrukce, aby se co nejvíce využilo místo v instrukčním slovu
 	- větší náročnost na program. paměť
+		- v instrukci jsou OPCODy pro všechny jednotky, instrukce jsou dlouhé
+		- zároveň náročnější na implementaci, možné problémy se zpětnou kompatibilitou
 	- použití: GPU, DSP (Digital Signal Processors)
 
 ## 2. – vylepšení procesoru – (příklad)
@@ -341,7 +345,8 @@ ___
 
 ## 5. – teorie
 - (2024) V čem se liší architektura signálového procesoru vůči běžnému procesoru?
-	- ...
+	- signálový - uzpůsoben pro analýzu proudu dat, maticové výpočty, výpočty s vektory,
+	- praktické algoritmy, pro které se signálový hodí - Fourierovka, filtry (IIR, FIR)
 - **(!) Co víte o architektuře procesorů ISA s univerz. registry? Architekturu charakterizujte, uveďte výhody/nevýhody.**
 	- Instruction Set Architecture
 	- velmi rychlé univerzální registry (GPR), mohou být zdrojem dat i cílem
@@ -351,13 +356,26 @@ ___
 	- složitý překladač, registry neumí pole (a další složité dat. strukt.)
 	- přepnutí kontextu trvá další dobu
 - **Popište výhodu technologie zpracování instrukcí mimo pořadí (out-of-order) a kde se používá.**
-	- todo
+	- instrukce se vykonají v jiném pořadí než uvádí program uložený v operační paměti
+	- -> procesor rozhoduje o pořadí instrukcí (aby byly zpracovány co nejrychleji)
+		- snaží se maximalizovat využití všech částí procesoru
+	- kde se používá:
+		- moderní Intel procesory, superpočítače, mobilní čipy (výdrž baterie)
 - **Popište výhodu technologie spekulativního zpracování instrukcí (speculative execution) a kde se používá.**
-	- todo
+	- odhad vykonávání instrukcí dopředu
+	- když je CPU méně vytížen, vykonávají se instrukce do budoucna
+		- není jisté, zda budou použity
+	- důležité je, aby byly výsledky rychle k dispozici (cache)
+	- kde se používá:
+		- GPU, superpočítače
 - (2024) Co víte o technologii Turbo Boost? K čemu slouží a kde se používá?
-	- ...
+	- umožňuje jádrům fungovat s vyšší frekvencí
+	- pokud to okolnosti dovolují (teplota, spotřeba)
+	- použití: vyrovnání vytížení CPU
 - (2024) Na jakých principech je založena funkce řadiče procesoru? Uveďte výhody/nevýhody jednotlivých koncepcí.
-	- ...
+	- Control Unit - řadič
+	- řídí chod CPU, obsahuje instrukčí: registr (uchovává OPCODE instr.) a dekodér (generuje řídící signály pro procesor)
+	- může obsahovat podřadiče pro přerušení, IO, periferie, ... 
 - **(!) Na jakých principech jsou založeny technologie SSD disků? Uveďte výhody/nevýhody.**
 	- todo
 - **Na jakých principech je založena funkce řadiče? Uveďte výhody/nevýhody.**
@@ -370,7 +388,14 @@ ___
 		- mikroprogramový: obecná řídící paměť s mikroinstrukcemi, flexibilnější
 	- řadič dále obsahuje podřadiče pro přerušení, IO, periferie...
 - (2024) Paralelní víceprocesorové systémy se dělí na volně a těsně vázané. Uveďte, v čem je princip. rozdíl. Za jakých podmínek je výhodnější použití těsně vázaných systémů?
-	- ...
+	- volně vázané
+		- každý CPU v systému je vybaven velkou lokální pamětí
+		- procesory mají autonomii, slabá interakce mezi nimi
+		- multipočítače, masivně paralelní počítače, clustery
+	- těsně vázané
+		- CPU nemají lokální paměť, paměť je sdílená
+		- ideálně aby byly všechny CPU v síti rovnocenné (Symmetric Multi-Processor)
+		- výhodné za podmínek, že nemáme příliš velké množství procesorů (+ je možné přidat k procesorům cache)
 - **(!) Jaké jsou principiální možnosti řešení priorit při více zdrojích přerušení?**
 	- programová identifikace
 		- k přerušovacímu vstupu procesoru se připojí signály externích přerušení
@@ -389,7 +414,10 @@ ___
 		- řadič přerušení rozhoduje o prioritě, může měnit aktálně zpracovávané přerušení když přijde nové s vyšší prio
 		- efektivní, nejrychlejší, nejdražší, složitá implementace (nároky na specializovaný HW)
 - (2024) Co více o sběrnici SPI? Naznačte princip a oblast použití.
-	- ...
+	- Serial Peripheral Interface
+	- 4 vodiče, full-duplex
+	- vždy jeden master (určuje CLK a rychlost komunikace)
+	- každé další zařízení = vodič navíc
 - **Co víte o sběrnici I^2C? Naznačte princip a oblast použití.**
 	- Inter-integrated circuit
 	- proprietární Philips, platí se za přidělení unikátní adresy zařízení
@@ -439,19 +467,66 @@ ___
 	- příklady konkrétního zakončení:
 		- CAN (Controller Area Network)
 - **Charakterizujte symbolická pole. Kde se používají?**
-	- todo
+	- datová struktura, tabulka, mapuje symbolické názvy na konkrétní hodnoty / adresy
+	- na uložení proměnných, funkcí, konstant, tříd, objektů...
+	- assembler, ukládání instrukcí
+	- u debugování
 - **Co je cache, k čemu slouží, jaké znáte typy?**
-	- todo
+	- rychlá vyrovnávací paměť mezi CPU a RAM
+	- aby nemusel CPU pořád chodit do pomalé RAM
+	- různé rychlosti a velikosti:
+		- L1 Cache - 🚀, ~128KB, v jádře CPU
+		- L2 Cache - 😴, ~1-8MB, individuální nebo sdílená
+		- L3 Cache - 🐌, ~desítky MB, sdílená mezi jádry
+	- další typy (kromě CPU cache): disková cache, GPU cache, (i třeba OS ma cache...)
+	- princip fungování: naposledy použitá data budou pravděpodobně použita znovu, tedy FIFO (nahrazení nejstarších dat)
 - **Co je to DMA? Naznačte princip činnosti.**
-	- todo
+	- Direct Memory Access
+	- mechanismus, který umožňuje přenos dat mezi zařízením (resp. portem) a RAM bez nutnosti zapojení CPU
+	- CPU ovládá přenos (iniciuje přenost nastavením zdrojové -> cílové adresy)
+		- DMA řadič převezme kontrolu nad sběrnicí a zahájí přenos
+		- po dokončení DMA řadič informuje CPU pomocí přerušení
+	- (v podstatě jde o způsob řízení I/O opreací)
+	- CPU může v době řízení vykonávat jiné činnosti -> 👍🏻
+	- data se v rámci DMA přenáší v rámci bloků (nebo přímo)
 - **Co jsou to clustery, jaké znáte typy?**
-	- todo
+	- masivně paralelní počítače s rychlou propojovací sítí
+	- více počítačů spolupracuje jako jednotný celek
+		- cíl je zvýšit výkon / dostupnost / rozložit zátěž / ...
+		- High-Performance: vědecké, simulační výpočty; superpočítače
+		- High-Availability: datová centra, banky; spolehlivost, 24/7 provoz
+		- Load-Balancing: cloud, web; distribuce zátěže
+		- Storage: uložný cluster; zprostředkovává přístup k disku
+	- clustery se lépe škálují
+	- lze je propojit i pomocí internetu (COW, NOW [Cluster/Network Of Workstations])
 - **Jaké znáte hlavní módy adresování? Nazačte principy.**
-	- todo
+	- adresování = způsob, jakým je získán operand pro provedení instrukce
+	- módy:
+		- přímé (Direct): konstanta, nelze modifikovat za běhu
+		- nepřímé (Indirect): adresa operandu je v registru / paměti, dynamická manipulace
+		- registrové: operand je v registru CPU (např. Carry, Zero)
+		- relativní: relativně k aktuální hodnotě program counteru (JMP, CALL)
 - **K čemu slouží ALU, z jakých částí se skládá, čím se liší ALU běžných signálových CPU vs ALU běžných CPU?**
-	- todo
+	- Arithmetic Logic Unit
+	- základní výpočetní jednotka procesoru, které provádí aritmetické+logické oper.
+	- slouží ke:
+		- sčítání, násobení, logickým operacím (AND, XOR), bitovým operacím, porovnávání, ...
+	- složení ALU:
+		- aritmetická sekce (sčítačky, odečítačky, děličky,...)
+		- logická sekce (bitové a logické operace)
+		- řídící logika - komunikuje s řadičem CPU
+		- příznakové registry (carry, zero, borrow, parity, ...)
+	- procesor může mít více různých ALU (specializované, FPU)
+	- signálové CPU vs běžné CPU
+		- signálové jsou uzpůsobeny pro rychlé operace s maticemi, Fourierovka, fitry, vektory ... (zpracování toku dat)
+		- signálové mají vysoký vnitřní paralelismus a specializované instrukce
 - **Co víte o technologii HT (Hyper-threading) u Intel Pentium 4?**
-	- todo
+	- technologie vícevláknového paralelního zpracování instrukcí
+		- umožňuje jednomu jádru aby zpracovávalo dvě vlákna naráz
+	- rozdělení procesoru na fyzické a dvě logické jádra
+		- každé logické má vlastní registry, plánovač instrukcí
+	- pokud je ke zpracování instrukce a jedno vlákno čeká, procesor přepne na druhé (paralelizace)
+	- snižuje latenci
 
 ## Nezařazeno / nevypracováno
 - Napište výkonnostní rovnici procesoru bez cache a s cache, popište veličiny.
