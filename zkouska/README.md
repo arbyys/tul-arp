@@ -45,6 +45,12 @@
 	- definuje systémovou sběrnici mezi CPU a okolím
 	- dříve severní/jižní můstek
 		- dnes funkce severního můstku v CPU, zbytek v Controller Hub
+- věci:
+	- struktura počítače je nezávislá na typu řešené úlohy (mění se jen paměť)
+	- program tvoří posloupnost instrukcí
+		- změna pořadí pomocí (ne)podmíněného skoku
+	- tok dat řídí řadič
+	- 
 
 ___
 
@@ -52,21 +58,20 @@ ___
 
 ## 1. – char. vlastnosti
 - **Uveďte char. vlastnosti von Neumanovy architektury počítačů**
-	- struktura počítače nezávislá na typu úlohy
 	- společná paměť pro program (instrukce) + data (operandy)
 		- paměť rozdělená do buněk stejné velikosti
-	- program tvořen posloupností instrukcí (s daným pořadím)
-		- změna pořadí pomocí (ne)podmíněného skoku
-	- dvojková soustava pro reprezentaci čísel
-	- tok dat v programu řídí řadič
+	- vstupy se berou jako datové zdroje, výstupy jako výsledky, napojeny přímo na ALU
 	- – porovnání
-		- jednodušší návrh, horší paralelizace, procesor řeká na dokončení I/O operací (sdílená sběrnice)
+		- jednodušší návrh, horší paralelizace, procesor řeká na dokončení I/O operací (sdílená sběrnice), složitější debugging
+	- riziko že se data mylně interpretují jako program
 - (2024) Uveďte char. vlastnosti Harvardské architektury počítačů
 	- oddělená paměť programu a dat
+		- paměti můžou mít odlišnou konstrukci, lze přistupovat k oběma naráz
 	- oddělená sběrnice
 	- řízení procesoru odděleno od řízení IO jednotek
 	- – porovnání
 		- dražší a složitější implementace, vyšší bezpečnost, možnost paralelizace 
+	- použití typicky s RISC v MCU
 - **Uveďte char. vlastnosti procesurů typu CISC**
 	- Complex Instruction Set Computer
 	- dříve byly RAM pomalejší než CPU
