@@ -551,10 +551,43 @@ ___
 	- pokud je ke zpracování instrukce a jedno vlákno čeká, procesor přepne na druhé (paralelizace)
 	- snižuje latenci
 
-## Nezařazeno / nevypracováno
+## Nezařazeno / ostatní
 - Napište výkonnostní rovnici procesoru bez cache a s cache, popište veličiny.
-- Na obrázku jsou znázorněny dva principy zpracování instrukcí v procesoru. Obě architektury pojmenujte a naznačte oblast použití (obrázek, `2016_1_2`)
+	- Výkon procesoru lze vyjádřit jako:
+
+	- $T = I \times CPI \times T_{clk}$
+		- $T$ – Celkový čas vykonání programu
+		- $I$ – Počet instrukcí programu
+		- $CPI$ – Počet cyklů na instrukci
+		- $T_{clk}$ – Doba jednoho taktu (1/frekvence CPU)
 - V čem se liší plně asociativní cache od n-cestně asociativní cache?
+	- **Plně asociativní cache**
+		- Každý blok paměti může být uložen **kamkoliv** v cache.
+		- **Výhoda**: Nízká míra chybějících (miss rate).
+		- **Nevýhoda**: Vyžaduje **složité hledání** v celé cache → vyšší latence.
+	- **n-cestně asociativní cache**
+		- Cache je rozdělena na **n množin (sets)**, každá má několik bloků.
+		- Adresování: **(Adresa mod počet množin) → indexuje bloky**.
+		- **Výhoda**: Lepší kompromis mezi výkonem a složitostí.
+		- **Nevýhoda**: Vyšší miss rate než plně asociativní cache, ale lepší než přímé mapování.
 - Jaké jsou hlavní části (funkční bloky) grafických procesorů? Popište účel každého bloku.
+	1. **Shader cores (SP - Streaming Processors)** – Paralelní výpočetní jednotky.
+	2. **Texture units (TMU - Texture Mapping Units)** – Zpracování textur a filtrací.
+	3. **Render Output Units (ROP - Raster Operations Pipelines)** – Operace nad pixely, ukládání do framebufferu.
+	4. **Memory controller** – Spravuje přístup do VRAM (GDDR, HBM).
+	5. **Ray-tracing cores** – Specializované jednotky pro sledování paprsků (RTX, RT cores).
 - Jaké znáte typy neadresovatelných pamětí? Charakterizujte stručně typy.
+	- Neadresovatelné paměti nelze přímo adresovat procesorem a jsou řízeny **speciálními řadiči**.
+	1. **ROM (Read-Only Memory)** – Pouze pro čtení, pevně naprogramovaná (např. BIOS, firmware).
+	2. **FIFO (First In, First Out)** – Použitá v bufferech, například v síťových adaptérech.
+	3. **Shift Register Memory** – Paměť založená na posuvu dat v sérii.
+	4. **CAM (Content Addressable Memory)** – Vyhledává data podle obsahu (např. tabulky v síťových switchích).
 - Co je architektura souboru instrukcí, co určuje, jaké znáte typy?
+	- ISA (Instruction Set Architecture) definuje, **jaké instrukce CPU podporuje** a jak je zpracovává.
+	- **Hlavní typy ISA**
+		1. **CISC (Complex Instruction Set Computing)** – Velká a složitá instrukční sada (x86, VAX).
+		2. **RISC (Reduced Instruction Set Computing)** – Jednodušší instrukce, vyšší paralelizace (ARM, MIPS, RISC-V).
+		3. **VLIW (Very Long Instruction Word)** – Instrukce obsahují více operací (Itanium, DSP).
+		4. **SIMD (Single Instruction, Multiple Data)** – Zpracování vektorů v jedné instrukci (AVX, SSE).
+		5. **MIMD (Multiple Instruction, Multiple Data)** – Paralelní procesory se samostatnými instrukčními toky.
+	- Každý typ architektury má optimalizaci pro jiný typ zátěže a aplikačního použití.
