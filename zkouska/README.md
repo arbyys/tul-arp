@@ -132,7 +132,7 @@ ___
 - **(!) Jaká je dosažitelná účinnost zřetězené 4stupňové linky při zpracování 5 instrukcí? Spočtěte dále průměrnou hodnotu CPI. (obrázek, `2010_19_1`, `2019_11_1`)**
 
 	- `x` = čekání na mezivýsledek; `-` = nevyužito
-	
+
 	| Čas | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
 	|--|--|--|--|--|--|--|--|--|--|
 	| S1 | 11 | 12 | 13 | 14 | x | 15 |  | | | 
@@ -158,10 +158,10 @@ ___
 
 | Stav po instrukcích |  Hodnota |  
 |----------|-----------|
-| 0x09 (WREG) | 0x?? |
-| 0x04 (FSR0L) | 0x?? |
-| 0x70 | 0x?? |
-| 0x71 | 0x?? |
+| 0x09 (WREG) | 0xCB |
+| 0x04 (FSR0L) | 0x71 |
+| 0x70 | 0xCC |
+| 0x71 | 0xCC |
 
 ___
 <br>
@@ -175,10 +175,10 @@ ___
 
 | Stav po instrukcích |  Hodnota |  
 |----------|-----------|
-| 0x09 (WREG) | 0x?? |
-| 0x04 (FSR0L) | 0x?? |
-| 0x70 | 0x?? |
-| 0x71 | 0x?? |
+| 0x09 (WREG) | 0x71 |
+| 0x04 (FSR0L) | 0x71 |
+| 0x70 | 0xEF |
+| 0x71 | 0x64 |
 
 ___
 <br>
@@ -327,28 +327,50 @@ ___
 
 ## 5. – teorie
 - (2024) V čem se liší architektura signálového procesoru vůči běžnému procesoru?
+	- ...
 - **(!) Co víte o architektuře procesorů ISA s univerz. registry? Architekturu charakterizujte, uveďte výhody/nevýhody.**
+	- todo
 - **Popište výhodu technologie zpracování instrukcí mimo pořadí (out-of-order) a kde se používá.**
+	- todo
 - **Popište výhodu technologie spekulativního zpracování instrukcí (speculative execution) a kde se používá.**
+	- todo
 - (2024) Co víte o technologii Turbo Boost? K čemu slouží a kde se používá?
+	- ...
 - (2024) Na jakých principech je založena funkce řadiče procesoru? Uveďte výhody/nevýhody jednotlivých koncepcí.
+	- ...
 - **(!) Na jakých principech jsou založeny technologie SSD disků? Uveďte výhody/nevýhody.**
+	- todo
 - **Na jakých principech je založena funkce řadiče? Uveďte výhody/nevýhody.**
+	- todo
 - (2024) Paralelní víceprocesorové systémy se dělí na volně a těsně vázané. Uveďte, v čem je princip. rozdíl. Za jakých podmínek je výhodnější použití těsně vázaných systémů?
 - **(!) Jaké jsou principiální možnosti řešení priorit při více zdrojích přerušení?**
+	- todo
 - (2024) Co více o sběrnici SPI? Naznačte princip a oblast použití.
+	- ...
 - **Co víte o sběrnici I^2C? Naznačte princip a oblast použití.**
+	- todo
 - **Co víte o sběrnici PCI Express? Naznačte princip a oblast použití.**
+	- todo
 - **Co víte o sběrnici USB? Naznačte princip a oblast použití.**
+	- todo
 - **(!) Co víte o sběrnici SAS? Naznačte princip a oblast použití.**
+	- todo
 - **(!) K čemu slouží impedační zakončení sběrnic? Kdy je nutné jej používat? Uveďte 1 příklad konkrétního impedačního zakončení sběrnice.**
+	- todo
 - **Charakterizujte symbolická pole. Kde se používají?**
+	- todo
 - **Co je cache, k čemu slouží, jaké znáte typy?**
+	- todo
 - **Co je to DMA? Naznačte princip činnosti.**
+	- todo
 - **Co jsou to clustery, jaké znáte typy?**
+	- todo
 - **Jaké znáte hlavní módy adresování? Nazačte principy.**
+	- todo
 - **K čemu slouží ALU, z jakých částí se skládá, čím se liší ALU běžných signálových CPU vs ALU běžných CPU?**
+	- todo
 - **Co víte o technologii HT (Hyper-threading) u Intel Pentium 4?**
+	- todo
 
 ## Nezařazeno / nevypracováno
 - Napište výkonnostní rovnici procesoru bez cache a s cache, popište veličiny.
