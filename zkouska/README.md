@@ -12,8 +12,8 @@
 	- **doplňkový kód** (dvojkový doplněk)
 		- = inverze všech bitů a přičíst 1
 	- **aditivní kód**
-		- lichý = $X +X^{n-1}-1$
-		- sudý = $X +X^{n-1}$
+		- lichý = $X +2^{n-1}-1$
+		- sudý = $X +2^{n-1}$
 		- kde $n = \text{počet bitů vstupu}$
 	- **přímý kód**
 		- absolutní hodnota čísla, MSB je znaménkový bit
